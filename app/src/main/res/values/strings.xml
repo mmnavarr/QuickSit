@@ -8,5 +8,13 @@
     <string name="addr">Enter Address</string>
     <string name="find">Find</string>
     <string name="title_activity_res">ResActivity</string>
+    <string name="title_activity_list">ListActivity</string>
+
+
+    <string name="res_name">Pastabilities</string>
+    <string name="res_distance"></string>
+    <string name="res_hours"></string>
+    <string name="res_phone"></string>
+
 
 </resources>
