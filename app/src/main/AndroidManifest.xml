@@ -18,11 +18,7 @@
         </activity>
         <activity
             android:name=".ResActivity"
-            android:label="@string/title_activity_res"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cyberplays.quicksit.MainActivity" />
+            android:label="@string/title_activity_res" >
         </activity>
     </application>
 
