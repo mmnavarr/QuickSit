@@ -9,7 +9,8 @@
     <string name="find">Find</string>
     <string name="title_activity_res">ResActivity</string>
     <string name="title_activity_list">ListActivity</string>
-
+    <string name="party">Party Size:</string>
+    <string name="range">Range:</string>
 
     <string name="res_name">Pastabilities</string>
     <string name="res_distance"></string>

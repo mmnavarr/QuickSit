@@ -11,7 +11,11 @@ public class ListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        if (savedInstanceState == null) {
+            setContentView(R.layout.activity_list);
+
+        }
+
     }
 
 
