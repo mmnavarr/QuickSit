@@ -8,5 +8,6 @@
     <string name="addr">Enter Adress</string>
     <string name="find">Find</string>
     <string name="title_activity_res">ResActivity</string>
+    <string name="title_activity_list">ListActivity</string>
 
 </resources>
