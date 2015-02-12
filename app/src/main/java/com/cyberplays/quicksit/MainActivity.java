@@ -44,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d("view DEBUG", Integer.toString(progress));
+                rangeTxt.setText(Integer.toString(progress));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -57,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
         pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                pSizeTxt.setText(Integer.toString(progress));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
