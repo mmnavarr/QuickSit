@@ -2,6 +2,10 @@ package com.cyberplays.quicksit;
 
 import android.content.Context;
 import android.content.Intent;
+
+
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
@@ -45,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
     //INITIALIZE THE VIEWS
     private void initViews(){
+        Boolean googlePlay = isGooglePlayServicesAvailable();
         title = (TextView) findViewById(R.id.title);
 
         addr = (EditText) findViewById(R.id.address);
