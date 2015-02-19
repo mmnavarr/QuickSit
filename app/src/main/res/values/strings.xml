@@ -12,9 +12,14 @@
 
 
     <string name="res_name">Pastabilities</string>
-    <string name="res_distance"></string>
-    <string name="res_hours"></string>
-    <string name="res_phone"></string>
+    <string name="res_addr">311 S Franklin St, Syracuse</string>
+    <string name="res_phone">508 - 596 - 8560</string>
+    <string name="res_menu">Menu</string>
+    <string name="res_yelp">Yelp</string>
+    <string name="res_make">Make Reservation</string>
+    <string name="res">Restaurant</string>
+
+
 
 
 </resources>

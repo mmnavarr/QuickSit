@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -35,6 +37,9 @@ public class MainActivity extends ActionBarActivity {
 
     //INITIALIZE THE VIEWS
     private void initViews(){
+        //int b = isGooglePlayServicesAvailable(getApplicationContext());
+
+
         title = (TextView) findViewById(R.id.title);
 
         addr = (EditText) findViewById(R.id.address);
