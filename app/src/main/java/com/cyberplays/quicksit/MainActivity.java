@@ -1,9 +1,12 @@
 package com.cyberplays.quicksit;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import android.location.LocationListener;
@@ -23,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -49,7 +54,12 @@ public class MainActivity extends ActionBarActivity {
 
     //INITIALIZE THE VIEWS
     private void initViews(){
-        Boolean googlePlay = isGooglePlayServicesAvailable();
+        int googlePlay = isGooglePlayServicesAvailable(getApplicationContext());
+        if ((googlePlay == 1) || (googlePlay == 2)|| (googlePlay == 3)) {
+
+            Dialog log = GooglePlayServicesUtil.getErrorDialog(googlePlay,this,googlePlay);
+
+        }
         title = (TextView) findViewById(R.id.title);
 
         addr = (EditText) findViewById(R.id.address);

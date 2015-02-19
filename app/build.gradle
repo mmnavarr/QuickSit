@@ -4,6 +4,7 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+
     defaultConfig {
         applicationId "com.cyberplays.quicksit"
         minSdkVersion 16
