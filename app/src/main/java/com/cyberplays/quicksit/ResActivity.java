@@ -13,6 +13,16 @@ public class ResActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_res);
+
+            initViews();
         }
+
     }
+
+
+    protected void initViews() {
+        //
+    }
+
+
 }

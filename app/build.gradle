@@ -4,7 +4,6 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
-
     defaultConfig {
         applicationId "com.cyberplays.quicksit"
         minSdkVersion 16
@@ -23,5 +22,4 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.google.android.gms:play-services-maps:6.5.87'
 }
