@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ResActivity.class);
+                Intent i = new Intent(getApplicationContext(), ListActivity.class);
                 startActivity(i);
                 Log.d("view DEBUG","FIND!");
             }
