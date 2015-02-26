@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity {
     Button find;
     EditText addr;
     ImageButton currLocation;
+    Boolean lServices;
     SeekBar rangeBar, pSizeBar;
 
     @Override
@@ -36,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
-
+        lServices = false;
         addr = (EditText) findViewById(R.id.address);
 
         currLocation = (ImageButton) findViewById(R.id.currLocation);
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d("view DEBUG", Integer.toString(progress));
+                rangeTxt.setText(Integer.toString(progress));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -59,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
         pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                pSizeTxt.setText(Integer.toString(progress));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -70,6 +72,15 @@ public class MainActivity extends ActionBarActivity {
         });
 
         pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
+
+        currLocation = (ImageButton) findViewById(R.id.currLocation);
+        currLocation.setOnClickListener(new View.OnClickListener()  {
+            @Override
+            public void onClick(View v) {
+                addr.setHint("Use Location Services");
+                lServices = true;
+            }
+        });
 
         find = (Button) findViewById(R.id.find);
         find.setOnClickListener(new View.OnClickListener() {
