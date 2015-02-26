@@ -13,14 +13,14 @@
     <string name="list_item_type">Italian Cuisine</string>
     <string name="list_item_dist">1.6 mi</string>
 
-
     <string name="res_title">Restaurant</string>
-    <string name="res_name">Pastabilities</string>
+    <string name="res_name">Dinosaur Bar-B-Que</string>
     <string name="res_addr">311 S Franklin St, Syracuse</string>
-    <string name="res_phone">508 - 596 - 8560</string>
+    <string name="res_type">American Cuisine</string>
     <string name="res_menu">Menu</string>
     <string name="res_yelp">Yelp</string>
     <string name="res_make">Make Reservation</string>
     <string name="res">Restaurant</string>
+
 
 </resources>
