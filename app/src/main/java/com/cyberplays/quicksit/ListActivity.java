@@ -28,7 +28,7 @@ public class ListActivity extends Activity {
     public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
 
-//
+//kjsfhdg
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
