@@ -5,22 +5,22 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="name">QuickSit</string>
-    <string name="addr">Enter Address</string>
+    <string name="addr">Enter Adress</string>
     <string name="find">Find</string>
-    <string name="title_activity_res">ResActivity</string>
-    <string name="title_activity_list">ListActivity</string>
-    <string name="party">Party Size:</string>
-    <string name="range">Range:</string>
 
-    <string name="res_name">Pastabilities</string>
+    <string name="list_title">Locations Near You</string>
+    <string name="list_item_name">Pastabilities</string>
+    <string name="list_item_type">Italian Cuisine</string>
+    <string name="list_item_dist">1.6 mi</string>
+
+    <string name="res_title">Restaurant</string>
+    <string name="res_name">Dinosaur Bar-B-Que</string>
     <string name="res_addr">311 S Franklin St, Syracuse</string>
-    <string name="res_phone">508 - 596 - 8560</string>
+    <string name="res_type">American Cuisine</string>
     <string name="res_menu">Menu</string>
     <string name="res_yelp">Yelp</string>
     <string name="res_make">Make Reservation</string>
     <string name="res">Restaurant</string>
-
-
 
 
 </resources>
