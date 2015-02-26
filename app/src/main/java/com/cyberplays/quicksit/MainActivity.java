@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
     private LocationListener locationListener;
     private Location lastKnownLocation, currentBestLocation;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
+    protected int range, partySize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d("view DEBUG", Integer.toString(progress));
                 rangeTxt.setText(Integer.toString(progress));
+                range = progress;
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -90,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 pSizeTxt.setText(Integer.toString(progress));
+                partySize = progress;
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -116,8 +119,14 @@ public class MainActivity extends ActionBarActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //stop listening for locations
                 locationManager.removeUpdates(locationListener);
+
+                //store relevant information in a parcelable user object
+                User user = new User(partySize,range,currentBestLocation);
+
                 Intent i = new Intent(getApplicationContext(), ListActivity.class);
+                i.putExtra("User",user);
                 startActivity(i);
                 Log.d("view DEBUG","FIND!");
             }

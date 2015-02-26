@@ -36,6 +36,11 @@ public class ListActivity extends Activity {
 
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_list);
+            Bundle b = getIntent().getExtras();
+
+            if (b != null){
+                User user = b.getParcelable("User");
+            }
 
             initList();
 
