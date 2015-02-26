@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
     private Location lastKnownLocation, currentBestLocation;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     protected int range, partySize;
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-
+//
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);

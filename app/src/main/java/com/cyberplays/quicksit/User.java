@@ -9,7 +9,7 @@ import android.location.*;
  * Created by Sam on 2/26/15.
  */
 public class User implements Parcelable{
-
+//
     protected int partySize;
     protected int range;
     protected Location location;
