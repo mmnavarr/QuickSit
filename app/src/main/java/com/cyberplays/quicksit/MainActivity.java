@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -108,7 +111,10 @@ public class MainActivity extends ActionBarActivity {
         currLocation.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
-                addr.setHint("Use Location Services");
+                double latitude = currentBestLocation.getLatitude();
+                double longitude = currentBestLocation.getLongitude();
+                String address = getAddress(latitude, longitude);
+                addr.setHint(address);
                 lServices = true;
             }
         });
@@ -180,5 +186,27 @@ public class MainActivity extends ActionBarActivity {
             return provider2 == null;
         }
         return provider1.equals(provider2);
+    }
+
+    public String getAddress(double lat, double lng) {
+        try {
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(getApplicationContext());
+            if (lat != 0 || lng != 0) {
+                addresses = geocoder.getFromLocation(lat,lng, 1);
+                String address = addresses.get(0).getAddressLine(0);
+                String city = addresses.get(0).getAddressLine(1);
+                String country = addresses.get(0).getAddressLine(2);
+                String fullAddr = (address + ", " + city);
+                return fullAddr;
+            } else {
+                Toast.makeText(getApplicationContext(), "latitude and longitude are null", Toast.LENGTH_LONG).show();
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

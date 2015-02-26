@@ -27,6 +27,7 @@ public class ListActivity extends Activity {
 
     public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
+    private User user;
 
 //kjsfhdg
 
@@ -39,7 +40,7 @@ public class ListActivity extends Activity {
             Bundle b = getIntent().getExtras();
 
             if (b != null){
-                User user = b.getParcelable("User");
+                user = b.getParcelable("User");
             }
 
             initList();
@@ -114,6 +115,7 @@ public class ListActivity extends Activity {
                 i.putExtra("type", array.get(position).getType());
                 i.putExtra("lat", array.get(position).getLoc().latitude);
                 i.putExtra("lng", array.get(position).getLoc().longitude);
+                i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
