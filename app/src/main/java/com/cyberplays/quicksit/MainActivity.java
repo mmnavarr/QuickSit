@@ -16,6 +16,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.io.IOException;
 import java.util.List;
 
 
@@ -127,6 +129,25 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //stop listening for locations
                 locationManager.removeUpdates(locationListener);
+                List<Address> addresses;
+                if (lServices){
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    String address = addr.getText().toString();
+                    try {
+                        addresses = geocoder.getFromLocationName(address, 1);
+                        Address currentBestAddress = addresses.get(0);
+
+                        currentBestLocation = new Location("");
+                        currentBestLocation.setLatitude(currentBestAddress.getLatitude());
+                        currentBestLocation.setLongitude(currentBestAddress.getLongitude());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (currentBestLocation == null) {
+                    currentBestLocation = lastKnownLocation;
+                }
 
                 //store relevant information in a parcelable user object
                 User user = new User(partySize,range,currentBestLocation);

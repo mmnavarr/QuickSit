@@ -23,13 +23,13 @@
         android:id="@+id/range"
         android:max="30"
         android:indeterminate="false"
-        android:layout_above="@+id/find"
-        android:layout_marginBottom="30dp"
         android:longClickable="false"
-        android:layout_alignRight="@+id/pSize"
-        android:layout_alignEnd="@+id/pSize"
+        android:thumbTint="#CE123E"
+        android:layout_above="@+id/find"
         android:layout_alignLeft="@+id/pSize"
-        android:layout_alignStart="@+id/pSize" />
+        android:layout_alignStart="@+id/pSize"
+        android:layout_alignRight="@+id/title"
+        android:layout_alignEnd="@+id/title" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -37,37 +37,41 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/address"
-        android:layout_marginTop="83dp"
-        android:layout_below="@+id/title"
+        android:hint="@string/addr"
+        android:layout_above="@+id/pSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/title"
-        android:layout_alignEnd="@+id/title"
-        android:hint="@string/addr" />
+        android:layout_alignEnd="@+id/title" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currLocation"
-        android:layout_alignBottom="@+id/address"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/address"
-        android:layout_toRightOf="@+id/title"
-        android:layout_toEndOf="@+id/title"
         android:clickable="true"
         android:src="@drawable/locationimg"
         android:scaleType="fitCenter"
-        android:contentDescription="locationimg" />
+        android:contentDescription="locationimg"
+        android:layout_above="@+id/pSize"
+        android:layout_toRightOf="@+id/title"
+        android:layout_toEndOf="@+id/title"
+        android:layout_alignTop="@+id/address" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="@string/find"
         android:id="@+id/find"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="77dp" />
+        android:background="#CE123E"
+        android:textSize="20sp"
+        android:onClick="makeClick"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true" />
+
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -77,8 +81,9 @@
         android:indeterminate="false"
         android:layout_above="@+id/range"
         android:layout_toLeftOf="@+id/currLocation"
-        android:layout_alignLeft="@+id/find"
-        android:layout_alignStart="@+id/find" />
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:thumbTint="#CE123E" />
 
     <TextView
         android:layout_width="wrap_content"
