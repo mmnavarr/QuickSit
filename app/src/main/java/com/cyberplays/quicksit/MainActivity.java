@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-//
+
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
