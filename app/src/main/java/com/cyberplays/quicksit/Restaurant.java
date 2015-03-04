@@ -17,6 +17,7 @@ public class Restaurant {
         this.type = type;
         this.dist = dist;
         this.loc = loc;
+
     }
 
     public Restaurant(String name, String type, double dist) {

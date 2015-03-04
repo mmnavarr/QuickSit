@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
                 //stop listening for locations
                 locationManager.removeUpdates(locationListener);
                 List<Address> addresses;
-                if (lServices){
+                if (!lServices){
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     String address = addr.getText().toString();
                     try {
