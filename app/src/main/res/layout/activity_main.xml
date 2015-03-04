@@ -31,8 +31,8 @@
         android:layout_above="@+id/find"
         android:layout_alignLeft="@+id/pSize"
         android:layout_alignStart="@+id/pSize"
-        android:layout_alignRight="@+id/title"
-        android:layout_alignEnd="@+id/title" />
+        android:layout_toLeftOf="@+id/rangeTxt"
+        android:layout_toStartOf="@+id/rangeTxt" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -44,20 +44,21 @@
         android:layout_above="@+id/pSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/title"
-        android:layout_alignEnd="@+id/title" />
+        android:layout_toLeftOf="@+id/currLocation"
+        android:layout_toStartOf="@+id/currLocation"
+        android:layout_marginRight="12dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currLocation"
         android:clickable="true"
-        android:src="@drawable/locationimg"
+        android:src="@drawable/ic_currentlocation"
         android:scaleType="fitCenter"
         android:contentDescription="locationimg"
         android:layout_above="@+id/pSize"
-        android:layout_toRightOf="@+id/title"
-        android:layout_toEndOf="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/address" />
 
     <Button
@@ -83,10 +84,10 @@
         android:max="10"
         android:indeterminate="false"
         android:layout_above="@+id/range"
-        android:layout_toLeftOf="@+id/currLocation"
         android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:thumbTint="#CE123E" />
+        android:thumbTint="#CE123E"
+        android:layout_toLeftOf="@+id/currLocation"
+        android:layout_toStartOf="@+id/currLocation" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,7 +99,9 @@
         android:layout_alignRight="@+id/currLocation"
         android:layout_alignEnd="@+id/currLocation"
         android:layout_toEndOf="@+id/address"
-        android:layout_toRightOf="@+id/address" />
+        android:layout_toRightOf="@+id/address"
+        android:text="@string/psize"
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,7 +114,9 @@
         android:layout_alignEnd="@+id/currLocation"
         android:layout_toEndOf="@+id/currLocation"
         android:layout_alignLeft="@+id/pSizeTxt"
-        android:layout_alignStart="@+id/pSizeTxt" />
+        android:layout_alignStart="@+id/pSizeTxt"
+        android:text="@string/dsize"
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,7 +126,8 @@
         android:id="@+id/textView"
         android:layout_alignTop="@+id/pSize"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -131,7 +137,8 @@
         android:id="@+id/textView2"
         android:layout_alignTop="@+id/range"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
 
     <ImageView
         android:layout_width="100dp"
