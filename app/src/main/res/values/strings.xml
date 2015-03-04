@@ -5,9 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="name">QuickSit</string>
-    <string name="addr">Enter Adress</string>
+    <string name="addr">Enter Address</string>
     <string name="find">Find</string>
-
+    <string name="party">Party size:</string>
+    <string name="range">Range:</string>
     <string name="list_title">Locations Near You</string>
     <string name="list_item_name">Pastabilities</string>
     <string name="list_item_type">Italian Cuisine</string>

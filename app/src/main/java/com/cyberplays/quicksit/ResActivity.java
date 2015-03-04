@@ -34,6 +34,7 @@ public class ResActivity extends ActionBarActivity {
     private GoogleMap map;
     private Intent i;
     private double lat, lng;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ResActivity extends ActionBarActivity {
 
             //Get the Intent that started this activity
             i = getIntent();
-
+            user = i.getParcelableExtra("user");
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
                 initMap();

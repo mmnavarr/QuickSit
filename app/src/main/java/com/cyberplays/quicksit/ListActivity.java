@@ -27,8 +27,9 @@ public class ListActivity extends Activity {
 
     public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
+    private User user;
 
-
+//kjsfhdg
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,11 @@ public class ListActivity extends Activity {
 
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_list);
+            Bundle b = getIntent().getExtras();
+
+            if (b != null){
+                user = b.getParcelable("User");
+            }
 
             initList();
 
@@ -109,6 +115,7 @@ public class ListActivity extends Activity {
                 i.putExtra("type", array.get(position).getType());
                 i.putExtra("lat", array.get(position).getLoc().latitude);
                 i.putExtra("lng", array.get(position).getLoc().longitude);
+                i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
