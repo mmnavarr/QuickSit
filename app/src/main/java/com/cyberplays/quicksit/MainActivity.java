@@ -138,6 +138,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    //Sets up the seek bars
     private void seekbarSetup() {
 
         rangeBar = (SeekBar) findViewById(R.id.range);
