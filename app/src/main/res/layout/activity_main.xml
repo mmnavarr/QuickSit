@@ -1,11 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="#888888"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#ffffffff"
     android:id="@+id/front">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:id="@+id/button2"
+        android:layout_alignRight="@+id/find"
+        android:layout_alignEnd="@+id/find"
+        android:layout_alignLeft="@+id/find"
+        android:layout_alignStart="@+id/find"
+        android:background="#CE123E" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,22 +21,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/name"
         android:id="@+id/title"
+        android:textSize="60sp"
+        android:textColor="#ffffffff"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="60sp" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/range"
-        android:max="100"
-        android:indeterminate="false"
-        android:layout_above="@+id/find"
-        android:layout_marginBottom="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/currLocation"
-        android:layout_toStartOf="@+id/currLocation" />
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,48 +35,54 @@
         android:id="@+id/address"
         android:layout_marginTop="83dp"
         android:layout_below="@+id/title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/title"
         android:layout_alignEnd="@+id/title"
-        android:hint="@string/addr" />
+        android:hint="@string/addr"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currLocation"
         android:layout_alignBottom="@+id/address"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/address"
         android:layout_toRightOf="@+id/title"
-        android:layout_toEndOf="@+id/title" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/find"
-        android:id="@+id/find"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="77dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp" />
 
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pSize"
+        android:max="50"
+        android:indeterminate="false"
+        android:layout_below="@+id/address"
+        android:layout_marginTop="100dp"
+        android:layout_toLeftOf="@+id/pSizeTxt"
+        android:layout_alignLeft="@+id/title" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/range"
         android:max="10"
         android:indeterminate="false"
-        android:layout_above="@+id/range"
+
+        android:layout_below="@+id/pSize"
+        android:layout_marginTop="35dp"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title"
         android:layout_toLeftOf="@+id/currLocation"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/currLocation" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0 mi."
+        android:text="0peeps"
         android:id="@+id/pSizeTxt"
         android:layout_toRightOf="@+id/range"
         android:layout_toEndOf="@+id/range"
@@ -90,11 +93,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="2 Ppl"
+        android:text="0mi"
         android:id="@+id/rangeTxt"
         android:layout_alignBottom="@+id/range"
         android:layout_toRightOf="@+id/range"
         android:layout_toEndOf="@+id/range"
         android:layout_alignTop="@+id/range" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="@string/find"
+        android:id="@+id/find"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF"
+        android:background="#CE123E"
+        android:textSize="24sp" />
 
 </RelativeLayout>

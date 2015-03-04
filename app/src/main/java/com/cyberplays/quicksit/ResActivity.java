@@ -1,7 +1,13 @@
 package com.cyberplays.quicksit;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -130,7 +136,10 @@ public class ResActivity extends ActionBarActivity {
 
     //MENU BUTTON ONCLICKLISTENER
     public void menuClick(View v) {
-        //Intent webIntent = Intent();
+        String url = "http://altocinco.net/menu/";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     //YELP BNUTTON ONCLICKLISTENER
@@ -140,7 +149,32 @@ public class ResActivity extends ActionBarActivity {
 
     //MAKE RESERVATION BUTTON ONCLICKLISTENER
     public void makeClick(View v) {
+        Toast.makeText(getApplicationContext(), "Make Res Call", Toast.LENGTH_SHORT).show();
+        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
 
+        alertDialogBuilder.setView(R.layout.make_dialog);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //HTTPOST REQUEST TO HOST SIDE
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();*/
     }
 
 

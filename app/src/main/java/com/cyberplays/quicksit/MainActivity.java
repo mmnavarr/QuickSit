@@ -1,6 +1,9 @@
 package com.cyberplays.quicksit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 
@@ -31,6 +36,10 @@ public class MainActivity extends ActionBarActivity {
             setContentView(R.layout.activity_main);
 
             initViews();
+
+            //SET ACTION BAR COLOR
+            ActionBar bar = getSupportActionBar();
+            bar.hide();
         }
 
     }
@@ -46,11 +55,14 @@ public class MainActivity extends ActionBarActivity {
 
         currLocation = (ImageButton) findViewById(R.id.currLocation);
 
+
+        rangeTxt = (TextView) findViewById(R.id.rangeTxt);
         rangeBar = (SeekBar) findViewById(R.id.range);
         rangeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d("view DEBUG", Integer.toString(progress));
+                rangeTxt.setText(Integer.toString(progress) + "mi");
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -58,13 +70,12 @@ public class MainActivity extends ActionBarActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        rangeTxt = (TextView) findViewById(R.id.rangeTxt);
-
+        pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
         pSizeBar = (SeekBar) findViewById(R.id.pSize);
         pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                pSizeTxt.setText(Integer.toString(progress) + "peeps");
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -74,7 +85,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
 
         find = (Button) findViewById(R.id.find);
         find.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +95,10 @@ public class MainActivity extends ActionBarActivity {
                 Log.d("view DEBUG","FIND!");
             }
         });
+    }
+
+    public LatLng getCurrentLoc() {
+        return null;
     }
 
 }
