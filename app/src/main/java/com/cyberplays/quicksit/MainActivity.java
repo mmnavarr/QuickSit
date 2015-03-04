@@ -49,11 +49,16 @@ public class MainActivity extends ActionBarActivity {
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
+        locationSetup();
+        buttonSetup();
+        seekbarSetup();
+
+    }
+
+    //Sets up necessary location services variables/methods
+    private void locationSetup() {
+
         lServices = false;
-        addr = (EditText) findViewById(R.id.address);
-
-        currLocation = (ImageButton) findViewById(R.id.currLocation);
-
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
@@ -75,39 +80,13 @@ public class MainActivity extends ActionBarActivity {
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        currentBestLocation = lastKnownLocation;
+    }
 
-        rangeBar = (SeekBar) findViewById(R.id.range);
-        rangeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("view DEBUG", Integer.toString(progress));
-                rangeTxt.setText(Integer.toString(progress));
-                range = progress;
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
+    private void buttonSetup() {
+        addr = (EditText) findViewById(R.id.address);
 
-        rangeTxt = (TextView) findViewById(R.id.rangeTxt);
-
-        pSizeBar = (SeekBar) findViewById(R.id.pSize);
-        pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                pSizeTxt.setText(Integer.toString(progress));
-                partySize = progress;
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
+        currLocation = (ImageButton) findViewById(R.id.currLocation);
 
         currLocation = (ImageButton) findViewById(R.id.currLocation);
         currLocation.setOnClickListener(new View.OnClickListener()  {
@@ -120,8 +99,6 @@ public class MainActivity extends ActionBarActivity {
                 lServices = true;
             }
         });
-
-
 
         find = (Button) findViewById(R.id.find);
         find.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +136,43 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+
+    private void seekbarSetup() {
+
+        rangeBar = (SeekBar) findViewById(R.id.range);
+        rangeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.d("view DEBUG", Integer.toString(progress));
+                rangeTxt.setText(Integer.toString(progress));
+                range = progress;
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        rangeTxt = (TextView) findViewById(R.id.rangeTxt);
+
+        pSizeBar = (SeekBar) findViewById(R.id.pSize);
+        pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                pSizeTxt.setText(Integer.toString(progress));
+                partySize = progress;
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
+    }
+
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
         if (currentBestLocation == null) {
             // A new location is always better than no location
@@ -200,6 +214,7 @@ public class MainActivity extends ActionBarActivity {
         }
         return false;
     }
+
 
     /** Checks whether two providers are the same */
     private boolean isSameProvider(String provider1, String provider2) {
