@@ -83,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
         currentBestLocation = lastKnownLocation;
     }
 
+    //Sets up buttons
     private void buttonSetup() {
         addr = (EditText) findViewById(R.id.address);
 
