@@ -7,6 +7,8 @@
     android:background="@drawable/background"
     android:id="@+id/front">
 
+
+
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -161,6 +163,7 @@
         android:layout_below="@+id/address"
         android:layout_alignRight="@+id/currLocation"
         android:layout_alignEnd="@+id/currLocation"
+        android:layout_toRightOf="@+id/textView3"
         android:layout_toEndOf="@+id/textView3" />
 
 </RelativeLayout>

@@ -9,7 +9,7 @@
     <string name="time">Enter time:</string>
     <string name="find">Find</string>
     <string name="party">Party size:</string>
-    <string name="range">Range:</string>
+    <string name="range">Distance:</string>
     <string name="list_title">Locations Near You</string>
     <string name="list_item_name">Pastabilities</string>
     <string name="list_item_type">Italian Cuisine</string>

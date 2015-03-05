@@ -16,8 +16,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
+import android.view.View.OnClickListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,11 +41,31 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
+            addListenerOnButton();
             initViews();
         }
 
     }
+Button button;
+    public void addListenerOnButton() {
 
+        final Context context = this;
+
+        button = (Button) findViewById(R.id.find);
+
+        button.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(context, ListActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
+
+    }
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
