@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.location.*;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,38 +103,54 @@ public class MainActivity extends ActionBarActivity {
         });
 
         find = (Button) findViewById(R.id.find);
-        find.setOnClickListener(new View.OnClickListener() {
+        find.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                //stop listening for locations
-                locationManager.removeUpdates(locationListener);
-                List<Address> addresses;
-                if (!lServices){
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    String address = addr.getText().toString();
-                    try {
-                        addresses = geocoder.getFromLocationName(address, 1);
-                        Address currentBestAddress = addresses.get(0);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //style for touches
+                    find.setBackgroundColor(getResources().getColor(R.color.white));
+                    find.setTextColor(getResources().getColor(R.color.shittyRoses));
 
-                        currentBestLocation = new Location("");
-                        currentBestLocation.setLatitude(currentBestAddress.getLatitude());
-                        currentBestLocation.setLongitude(currentBestAddress.getLongitude());
+                    //stop listening for locations
+                    locationManager.removeUpdates(locationListener);
+                    List<Address> addresses;
+                    String address;
+                    if (!lServices) {
+                        Geocoder geocoder = new Geocoder(getApplicationContext());
+                        address = addr.getText().toString();
+                        if (address.length() == 0) {
+                            Toast.makeText(getApplicationContext(), "Please enter an address", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                        try {
+                            addresses = geocoder.getFromLocationName(address, 1);
+                            Address currentBestAddress = addresses.get(0);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            currentBestLocation = new Location("");
+                            currentBestLocation.setLatitude(currentBestAddress.getLatitude());
+                            currentBestLocation.setLongitude(currentBestAddress.getLongitude());
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (currentBestLocation == null) {
+                        currentBestLocation = lastKnownLocation;
                     }
-                }
-                else if (currentBestLocation == null) {
-                    currentBestLocation = lastKnownLocation;
-                }
 
-                //store relevant information in a parcelable user object
-                User user = new User(partySize,range,currentBestLocation);
+                    //store relevant information in a parcelable user object
+                    User user = new User(partySize, range, currentBestLocation);
 
-                Intent i = new Intent(getApplicationContext(), ListActivity.class);
-                i.putExtra("User",user);
-                startActivity(i);
-                Log.d("view DEBUG","FIND!");
+                    Intent i = new Intent(getApplicationContext(), ListActivity.class);
+                    i.putExtra("User", user);
+                    startActivity(i);
+                    Log.d("view DEBUG", "FIND!");
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    find.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    find.setTextColor(getResources().getColor(R.color.white));
+                }
+                return false;
             }
         });
     }
