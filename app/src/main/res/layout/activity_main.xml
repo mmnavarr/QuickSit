@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/currLocation"
         android:clickable="true"
-        android:src="@drawable/ic_currentlocation"
+        android:src="@drawable/location"
         android:scaleType="fitCenter"
         android:contentDescription="locationimg"
         android:layout_above="@+id/pSize"
