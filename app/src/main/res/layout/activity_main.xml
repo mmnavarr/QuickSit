@@ -18,8 +18,8 @@
         android:layout_below="@+id/pSize"
         android:layout_alignLeft="@+id/pSize"
         android:layout_alignStart="@+id/pSize"
-        android:layout_toStartOf="@+id/currLocation"
-        android:layout_toLeftOf="@+id/currLocation" />
+        android:layout_alignRight="@+id/pSize"
+        android:layout_alignEnd="@+id/pSize" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,10 +28,11 @@
         android:ems="10"
         android:id="@+id/address"
         android:hint="@string/addr"
-        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:layout_below="@+id/imageView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textStyle="bold" />
+        android:layout_marginTop="109dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
         android:layout_alignTop="@+id/address"
         android:layout_toRightOf="@+id/address"
         android:layout_toEndOf="@+id/address"
-        android:layout_above="@+id/pSize" />
+        android:layout_above="@+id/editText" />
 
     <Button
         android:layout_width="wrap_content"
@@ -69,9 +70,9 @@
         android:max="10"
         android:indeterminate="false"
         android:thumbTint="#CE123E"
-        android:layout_marginTop="46dp"
-        android:layout_below="@+id/address"
-        android:layout_toLeftOf="@+id/currLocation"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/editText"
+        android:layout_toLeftOf="@+id/pSizeTxt"
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView" />
 
@@ -108,12 +109,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/time"
+        android:id="@+id/textView3"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/party"
         android:id="@+id/textView"
-        android:layout_above="@+id/textView2"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/pSize"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="bold" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,11 +133,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/range"
         android:id="@+id/textView2"
-        android:layout_alignTop="@+id/range"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/range"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
-        android:textStyle="bold" />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="100dp"
@@ -139,5 +150,17 @@
         android:id="@+id/imageView"
         android:layout_alignRight="@+id/find"
         android:layout_alignEnd="@+id/find" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/address"
+        android:layout_alignRight="@+id/currLocation"
+        android:layout_alignEnd="@+id/currLocation"
+        android:layout_toEndOf="@+id/textView3" />
 
 </RelativeLayout>

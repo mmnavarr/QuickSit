@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="name">QuickSit</string>
     <string name="addr">Enter Address</string>
+    <string name="time">Enter time:</string>
     <string name="find">Find</string>
     <string name="party">Party size:</string>
     <string name="range">Range:</string>
