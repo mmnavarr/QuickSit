@@ -2,6 +2,7 @@ package com.cyberplays.quicksit;
 
 import android.content.Intent;
 import android.content.Context;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,10 @@ public class MainActivity extends ActionBarActivity {
             addListenerOnButton();
             initViews();
         }
+
+        //Hide the action bar
+        ActionBar bar = getSupportActionBar();
+        bar.hide();
 
     }
 Button button;

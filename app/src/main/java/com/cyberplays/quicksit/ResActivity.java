@@ -13,7 +13,9 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +33,12 @@ import java.util.List;
 public class ResActivity extends ActionBarActivity {
 
     private TextView name, addr, type;
+    private Button menu, yelp, make;
     private GoogleMap map;
     private Intent i;
     private double lat, lng;
     private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class ResActivity extends ActionBarActivity {
         type = (TextView) findViewById(R.id.res_type);
         type.setText(i.getStringExtra("type") + " Cuisine");
 
+        initButtons();
     }
 
 
@@ -135,47 +140,97 @@ public class ResActivity extends ActionBarActivity {
     }
 
 
-    //MENU BUTTON ONCLICKLISTENER
-    public void menuClick(View v) {
-        String url = "http://altocinco.net/menu/";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
-    }
+    public void initButtons() {
+        menu = (Button) findViewById(R.id.menu);
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //stlye for touches
+                    menu.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    menu.setTextColor(getResources().getColor(R.color.white));
 
-    //YELP BNUTTON ONCLICKLISTENER
-    public void yelpClick(View v) {
 
-    }
+                    //Send them to menu URL
+                    String url = "http://altocinco.net/menu/";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
 
-    //MAKE RESERVATION BUTTON ONCLICKLISTENER
-    public void makeClick(View v) {
-        Toast.makeText(getApplicationContext(), "Make Res Call", Toast.LENGTH_SHORT).show();
-        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //style for un-touche
+                    menu.setBackgroundColor(getResources().getColor(R.color.white));
+                    menu.setTextColor(getResources().getColor(R.color.shittyRoses));
+                 }
+                return false;
+            }
+        });
 
-        alertDialogBuilder.setView(R.layout.make_dialog);
+        yelp = (Button) findViewById(R.id.yelp);
+        yelp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //stlye for touches
+                    yelp.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    yelp.setTextColor(getResources().getColor(R.color.white));
 
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //HTTPOST REQUEST TO HOST SIDE
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    //MAKE A YELP CALL....
 
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //style for un-touche
+                    yelp.setBackgroundColor(getResources().getColor(R.color.white));
+                    yelp.setTextColor(getResources().getColor(R.color.shittyRoses));
+                }
+                return false;
+            }
+        });
 
-        // show it
-        alertDialog.show();*/
+        make = (Button) findViewById(R.id.res_make);
+        make.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //style for touch
+                    make.setBackgroundColor(getResources().getColor(R.color.white));
+                    make.setTextColor(getResources().getColor(R.color.shittyRoses));
+
+                    Toast.makeText(getApplicationContext(), "Make Res Call", Toast.LENGTH_SHORT).show();
+
+                    /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+                    alertDialogBuilder.setView(R.layout.make_dialog);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //HTTPOST REQUEST TO HOST SIDE
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();*/
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //style for un-touch
+                    make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    make.setTextColor(getResources().getColor(R.color.white));
+                }
+                return false;
+            }
+        });
+
     }
 
 
