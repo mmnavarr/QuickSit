@@ -11,14 +11,14 @@ public class Restaurant {
 
     protected String name;
     protected String type;
-    //protected double dist;
+
     protected LatLng loc;
     protected Location userLocation;
 
     public Restaurant(String name, String type,LatLng loc) {
         this.name = name;
         this.type = type;
-        //this.dist = dist;
+
         this.loc = loc;
         this.userLocation = new Location("User");
         userLocation.setLatitude(loc.latitude);
@@ -29,7 +29,7 @@ public class Restaurant {
     public Restaurant(String name, String type) {
         this.name = name;
         this.type = type;
-        //this.dist = dist;
+
     }
 
     public String getName() {
@@ -49,10 +49,7 @@ public class Restaurant {
     public double getDist(Location l) {
         return userLocation.distanceTo(l);
     }
-    /*public void setDist(double dist) {
-        this.dist = dist;
-    }
-*/
+
     public LatLng getLoc() {
         return loc;
     }

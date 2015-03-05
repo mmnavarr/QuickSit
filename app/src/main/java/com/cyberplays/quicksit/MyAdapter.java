@@ -22,7 +22,7 @@ public class MyAdapter extends ArrayAdapter<Restaurant> {
     private final int resource;
     private LayoutInflater mInflater;
     private Location userLocation;
-    private LatLng userLatLng;
+
     private TextView res_name, res_type, res_dist;
 
     public MyAdapter(Context context, int resource, ArrayList<Restaurant> rests, Location location) {
@@ -31,7 +31,7 @@ public class MyAdapter extends ArrayAdapter<Restaurant> {
         this.rests = rests;
         this.resource = resource;
         this.userLocation = location;
-        this.userLatLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
