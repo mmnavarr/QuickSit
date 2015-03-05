@@ -29,9 +29,9 @@
             android:textColor="#ffffffff"
             android:singleLine="true"
             android:textStyle="bold"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/fragment2"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="57dp" />
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -110,5 +110,17 @@
             android:layout_alignTop="@+id/menu"
             android:background="#CE123E" />
 
+
+
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/fragment3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/yelp"
+            android:layout_alignEnd="@+id/yelp" />
 
     </RelativeLayout>
