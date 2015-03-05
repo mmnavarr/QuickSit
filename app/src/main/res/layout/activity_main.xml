@@ -90,7 +90,8 @@
         android:layout_toEndOf="@+id/address"
         android:layout_toRightOf="@+id/address"
         android:text="@string/psize"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_alignParentStart="false" />
 
     <TextView
         android:layout_width="wrap_content"
