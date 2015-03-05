@@ -95,7 +95,7 @@ public class ListActivity extends Activity {
     private void initList() {
         mListView = (ListView) findViewById(R.id.list);
 
-        //Add Restaurants to array
+        //Add Restaurants to array.
         array.add(new Restaurant("Alto Cinco","Mexican",new LatLng(43.041165,-76.119486)));
         array.add(new Restaurant("Pastabilities", "Italian",new LatLng(43.04831,-76.155311)));
         array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ",new LatLng(43.05249,-76.15467)));
