@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.location.Location;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -28,6 +29,7 @@ public class ListActivity extends Activity {
     public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
     private User user;
+    public Location myLocation;
 
 //kjsfhdg
 
@@ -42,7 +44,7 @@ public class ListActivity extends Activity {
             if (b != null){
                 user = b.getParcelable("User");
             }
-
+            myLocation = user.getLocation();
             initList();
 
             if (isPlayServicesAvailable()) {
@@ -93,17 +95,17 @@ public class ListActivity extends Activity {
         mListView = (ListView) findViewById(R.id.list);
 
         //Add Restaurants to array
-        array.add(new Restaurant("Alto Cinco","Mexican", 1.6, new LatLng(43.041165,-76.119486)));
-        array.add(new Restaurant("Pastabilities", "Italian", 2.0, new LatLng(43.04831,-76.155311)));
-        array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ", 2.3, new LatLng(43.05249,-76.15467)));
-        array.add(new Restaurant("The Mission Restaurant", "Mexican", 2.9, new LatLng(43.04812,	-76.14742)));
-        array.add(new Restaurant("Francesca's Cucina", "American", 2.9, new LatLng(43.058505,-76.152333)));
-        array.add(new Restaurant("Tully's Good Times", "American", 3.0, new LatLng(43.056009,-76.088804)));
-        array.add(new Restaurant("Lemon Grass", "Thai", 3.3, new LatLng(43.047555,-76.154434)));
-        array.add(new Restaurant("Stella's Diner", "American", 3.7, new LatLng(43.06908,-76.165269)));
+        array.add(new Restaurant("Alto Cinco","Mexican",new LatLng(43.041165,-76.119486)));
+        array.add(new Restaurant("Pastabilities", "Italian",new LatLng(43.04831,-76.155311)));
+        array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ",new LatLng(43.05249,-76.15467)));
+        array.add(new Restaurant("The Mission Restaurant", "Mexican", new LatLng(43.04812,	-76.14742)));
+        array.add(new Restaurant("Francesca's Cucina", "American", new LatLng(43.058505,-76.152333)));
+        array.add(new Restaurant("Tully's Good Times", "American", new LatLng(43.056009,-76.088804)));
+        array.add(new Restaurant("Lemon Grass", "Thai", new LatLng(43.047555,-76.154434)));
+        array.add(new Restaurant("Stella's Diner", "American", new LatLng(43.06908,-76.165269)));
 
         //Create list adapter with layout and array of restaurants to populate
-        adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, array);
+        adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, array, myLocation);
         //Set list adapter
         mListView.setAdapter(adapter);
         //Handle onclick to push all the information of click restaurant

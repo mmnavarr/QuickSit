@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.location.*;
 
 /**
- * Created by Sam on 2/26/15.
+ * Created by Sam
  */
 public class User implements Parcelable{
 //

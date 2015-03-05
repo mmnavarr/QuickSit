@@ -1,5 +1,7 @@
 package com.cyberplays.quicksit;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -9,21 +11,25 @@ public class Restaurant {
 
     protected String name;
     protected String type;
-    protected double dist;
+    //protected double dist;
     protected LatLng loc;
+    protected Location userLocation;
 
-    public Restaurant(String name, String type, double dist, LatLng loc) {
+    public Restaurant(String name, String type,LatLng loc) {
         this.name = name;
         this.type = type;
-        this.dist = dist;
+        //this.dist = dist;
         this.loc = loc;
+        this.userLocation = new Location("User");
+        userLocation.setLatitude(loc.latitude);
+        userLocation.setLongitude(loc.longitude);
 
     }
 
-    public Restaurant(String name, String type, double dist) {
+    public Restaurant(String name, String type) {
         this.name = name;
         this.type = type;
-        this.dist = dist;
+        //this.dist = dist;
     }
 
     public String getName() {
@@ -40,13 +46,13 @@ public class Restaurant {
         this.type = type;
     }
 
-    public double getDist() {
-        return dist;
+    public double getDist(Location l) {
+        return userLocation.distanceTo(l);
     }
-    public void setDist(double dist) {
+    /*public void setDist(double dist) {
         this.dist = dist;
     }
-
+*/
     public LatLng getLoc() {
         return loc;
     }

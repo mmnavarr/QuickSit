@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +21,17 @@ public class MyAdapter extends ArrayAdapter<Restaurant> {
     private ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
     private final int resource;
     private LayoutInflater mInflater;
+    private Location userLocation;
+    private LatLng userLatLng;
     private TextView res_name, res_type, res_dist;
 
-    public MyAdapter(Context context, int resource, ArrayList<Restaurant> rests) {
+    public MyAdapter(Context context, int resource, ArrayList<Restaurant> rests, Location location) {
         super(context, resource, rests);
         this.context = context;
         this.rests = rests;
         this.resource = resource;
+        this.userLocation = location;
+        this.userLatLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -64,15 +71,18 @@ public class MyAdapter extends ArrayAdapter<Restaurant> {
 
         res_type.setText(rests.get(position).getType());
 
-        res_dist.setText(Double.toString(rests.get(position).getDist()) + "mi");
+        res_dist.setText(Double.toString(rests.get(position).getDist(userLocation)) + "mi");
 
         return v;
     }
+
 
     @Override
     public int getViewTypeCount() {
         return getCount();
     }
+
+
 
 
 }
