@@ -60,11 +60,13 @@ public class MyAdapter extends ArrayAdapter<Restaurant> {
             v = convertView;
         }
 
-        res_name.setText(rests.get(position).getName());
+        Restaurant r = rests.get(position);
 
-        res_type.setText(rests.get(position).getType());
+        res_name.setText(r.getName());
 
-        res_dist.setText(Double.toString(rests.get(position).getDist()) + "mi");
+        res_type.setText(r.getType());
+
+        res_dist.setText(Double.toString(r.getDist()) + "mi");
 
         return v;
     }
