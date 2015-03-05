@@ -15,12 +15,11 @@
         android:indeterminate="false"
         android:longClickable="false"
         android:thumbTint="#CE123E"
-        android:layout_above="@+id/find"
+        android:layout_below="@+id/pSize"
         android:layout_alignLeft="@+id/pSize"
         android:layout_alignStart="@+id/pSize"
-        android:layout_toLeftOf="@+id/rangeTxt"
-        android:layout_toStartOf="@+id/rangeTxt"
-        android:layout_marginTop="4dp" />
+        android:layout_toStartOf="@+id/currLocation"
+        android:layout_toLeftOf="@+id/currLocation" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -29,12 +28,10 @@
         android:ems="10"
         android:id="@+id/address"
         android:hint="@string/addr"
-        android:layout_above="@+id/pSize"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/currLocation"
-        android:layout_toStartOf="@+id/currLocation"
-        android:layout_marginRight="12dp" />
+        android:textStyle="bold" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -44,10 +41,10 @@
         android:src="@drawable/location"
         android:scaleType="fitCenter"
         android:contentDescription="locationimg"
-        android:layout_above="@+id/pSize"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/address" />
+        android:layout_alignTop="@+id/address"
+        android:layout_toRightOf="@+id/address"
+        android:layout_toEndOf="@+id/address"
+        android:layout_above="@+id/pSize" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,12 +68,12 @@
         android:id="@+id/pSize"
         android:max="10"
         android:indeterminate="false"
-        android:layout_above="@+id/range"
-        android:layout_toRightOf="@+id/textView"
         android:thumbTint="#CE123E"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/address"
         android:layout_toLeftOf="@+id/currLocation"
-        android:layout_toStartOf="@+id/currLocation"
-        android:layout_marginTop="12dp" />
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,12 +82,12 @@
         android:id="@+id/pSizeTxt"
         android:layout_alignBottom="@+id/pSize"
         android:layout_alignTop="@+id/pSize"
-        android:layout_alignRight="@+id/currLocation"
-        android:layout_alignEnd="@+id/currLocation"
-        android:layout_toEndOf="@+id/address"
         android:layout_toRightOf="@+id/address"
         android:text="@string/psize"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/currLocation"
+        android:layout_alignEnd="@+id/currLocation" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -99,13 +96,13 @@
         android:id="@+id/rangeTxt"
         android:layout_alignBottom="@+id/range"
         android:layout_alignTop="@+id/range"
-        android:layout_alignRight="@+id/currLocation"
-        android:layout_alignEnd="@+id/currLocation"
-        android:layout_toEndOf="@+id/currLocation"
         android:layout_alignLeft="@+id/pSizeTxt"
         android:layout_alignStart="@+id/pSizeTxt"
         android:text="@string/dsize"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_alignRight="@+id/pSizeTxt"
+        android:layout_alignEnd="@+id/pSizeTxt" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -113,10 +110,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/party"
         android:id="@+id/textView"
-        android:layout_alignTop="@+id/pSize"
+        android:layout_above="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp" />
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -127,14 +124,15 @@
         android:layout_alignTop="@+id/range"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:contentDescription= "@string/name"
-        android:src= "@drawable/logo"
+        android:src= "@drawable/logo_1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
