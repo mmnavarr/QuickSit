@@ -47,7 +47,7 @@ public class Restaurant {
     }
 
     public double getDist(Location l) {
-        return userLocation.distanceTo(l);
+        return (userLocation.distanceTo(l)/1609.34);
     }
 
     public LatLng getLoc() {
