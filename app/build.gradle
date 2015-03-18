@@ -1,11 +1,18 @@
 apply plugin: 'com.android.application'
+/*
+YELP API
+Consumer Key	osWNvEzcfOCo9YVzUBaneg
+Consumer Secret	IG9Q7ByUuL7WieZJRdTYv_oSAqk
+Token	dvoNvOpUD2xtK6HlQ6iiX8My0MZE_ZYb
+Token Secret	ye0infUdd9y_h2EMJ8ffs2e9NhM
+*/
 
 android {
     signingConfigs {
         config {
             keyAlias 'QuickSitKey'
             keyPassword 'quicksitkey'
-            storeFile file('/Users/malcolmnavarro/Keystores/android.jks')
+            storeFile file('/Users/KevinKongMAC/Desktop/CIS 454/QuickSit/external/android.jks')
             storePassword 'Xyzlol!1'
         }
     }
