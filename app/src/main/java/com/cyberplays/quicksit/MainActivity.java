@@ -41,7 +41,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
-
             addListenerOnButton();
             initViews();
         }
@@ -63,7 +62,7 @@ Button button;
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(context, ListActivity.class);
+                Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
 
             }
@@ -71,6 +70,7 @@ Button button;
         });
 
     }
+
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
