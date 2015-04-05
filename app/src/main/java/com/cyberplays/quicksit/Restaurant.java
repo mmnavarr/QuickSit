@@ -10,13 +10,26 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  *
  */
-public class Restaurant {
+import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+
+
+/**
+ *
+ */
+public class Restaurant implements Parcelable{
 
     protected String name;
     protected String type;
     private String password;
     private double latitude;
     private double longitude;
+    private int waitTime;
 
     protected Location userLocation;
 
@@ -85,4 +98,39 @@ public class Restaurant {
     public void setLoc(Location loc) {
         this.userLocation = loc;
     }
+    public void setWait(int wait){this.waitTime = wait;}
+    public int getWait(){return this.waitTime;}
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(waitTime);
+        out.writeString(name);
+        out.writeString(type);
+        out.writeDouble(latitude);
+        out.writeDouble(longitude);
+        out.writeValue(userLocation);
+    }
+
+    public Restaurant(Parcel in){
+        this.waitTime = in.readInt();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.name = in.readString();
+        this.type = in.readString();
+        this.userLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
+    }
+
 }
