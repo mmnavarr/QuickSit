@@ -41,7 +41,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
-            addListenerOnButton();
+
+
             initViews();
         }
 
@@ -50,27 +51,6 @@ public class MainActivity extends ActionBarActivity {
         bar.hide();
 
     }
-Button button;
-    public void addListenerOnButton() {
-
-        final Context context = this;
-
-        button = (Button) findViewById(R.id.find);
-
-        button.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                startActivity(intent);
-
-            }
-
-        });
-
-    }
-
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
@@ -111,8 +91,6 @@ Button button;
     //Sets up buttons
     private void buttonSetup() {
         addr = (EditText) findViewById(R.id.address);
-
-        currLocation = (ImageButton) findViewById(R.id.currLocation);
 
         currLocation = (ImageButton) findViewById(R.id.currLocation);
         currLocation.setOnClickListener(new View.OnClickListener()  {

@@ -8,32 +8,43 @@ import java.math.RoundingMode;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by malcolmnavarro on 2/24/15.
+ *
  */
 public class Restaurant {
 
     protected String name;
     protected String type;
+    private String password;
+    private double latitude;
+    private double longitude;
 
-    protected LatLng loc;
     protected Location userLocation;
 
-    public Restaurant(String name, String type,LatLng loc) {
+    public Restaurant(String name, String type,double lat, double lon) {
         this.name = name;
         this.type = type;
+        this.latitude = lat;
+        this.longitude = lon;
 
-        this.loc = loc;
         this.userLocation = new Location("User");
-        userLocation.setLatitude(loc.latitude);
-        userLocation.setLongitude(loc.longitude);
+        userLocation.setLatitude(lat);
+        userLocation.setLongitude(lon);
 
     }
 
-    public Restaurant(String name, String type) {
+    public Restaurant(String name, String type, String pass, Location loc){
         this.name = name;
         this.type = type;
-
+        this.password = pass;
+        this.userLocation = loc;
     }
+
+    public Restaurant(String name, String pass, Location loc){
+        this.name = name;
+        this.password = pass;
+        this.userLocation = loc;
+    }
+
 
     public String getName() {
         return name;
@@ -61,10 +72,17 @@ public class Restaurant {
         return bd.doubleValue();
     }
 
-    public LatLng getLoc() {
-        return loc;
+    public double getLat() {
+        return this.latitude;
     }
-    public void setLoc(LatLng loc) {
-        this.loc = loc;
+
+    public double getLong(){
+        return this.longitude;
+    }
+    public Location getLoc() {
+        return userLocation;
+    }
+    public void setLoc(Location loc) {
+        this.userLocation = loc;
     }
 }

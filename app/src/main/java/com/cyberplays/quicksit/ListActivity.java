@@ -79,13 +79,13 @@ public class ListActivity extends Activity {
             Restaurant r = array.get(i);
 
             map.addMarker(new MarkerOptions()
-                .position(r.getLoc())
+                .position(new LatLng(r.getLat(),r.getLong()))
                 .title(r.getName())
                 .snippet(r.getType()));
         }
 
         // Move the camera instantly to hamburg with a zoom of 15.
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(array.get(1).getLoc(), 6));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(array.get(1).getLat(), array.get(1).getLong()), 6));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
@@ -96,14 +96,14 @@ public class ListActivity extends Activity {
         mListView = (ListView) findViewById(R.id.list);
 
         //Add Restaurants to array.
-        array.add(new Restaurant("Alto Cinco","Mexican",new LatLng(43.041165,-76.119486)));
-        array.add(new Restaurant("Pastabilities", "Italian",new LatLng(43.04831,-76.155311)));
-        array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ",new LatLng(43.05249,-76.15467)));
-        array.add(new Restaurant("The Mission Restaurant", "Mexican", new LatLng(43.04812,	-76.14742)));
-        array.add(new Restaurant("Francesca's Cucina", "American", new LatLng(43.058505,-76.152333)));
-        array.add(new Restaurant("Tully's Good Times", "American", new LatLng(43.056009,-76.088804)));
-        array.add(new Restaurant("Lemon Grass", "Thai", new LatLng(43.047555,-76.154434)));
-        array.add(new Restaurant("Stella's Diner", "American", new LatLng(43.06908,-76.165269)));
+        array.add(new Restaurant("Alto Cinco","Mexican",43.041165,-76.119486));
+        array.add(new Restaurant("Pastabilities", "Italian",43.04831,-76.155311));
+        array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ",43.05249,-76.15467));
+        array.add(new Restaurant("The Mission Restaurant", "Mexican",43.04812,	-76.14742));
+        array.add(new Restaurant("Francesca's Cucina", "American",43.058505,-76.152333));
+        array.add(new Restaurant("Tully's Good Times", "American",43.056009,-76.088804));
+        array.add(new Restaurant("Lemon Grass", "Thai",43.047555,-76.154434));
+        array.add(new Restaurant("Stella's Diner", "American",43.06908,-76.165269));
 
         //Create list adapter with layout and array of restaurants to populate
         adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, array, myLocation);
@@ -116,8 +116,8 @@ public class ListActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
                 i.putExtra("name", array.get(position).getName());
                 i.putExtra("type", array.get(position).getType());
-                i.putExtra("lat", array.get(position).getLoc().latitude);
-                i.putExtra("lng", array.get(position).getLoc().longitude);
+                i.putExtra("lat", array.get(position).getLat());
+                i.putExtra("lng", array.get(position).getLong());
                 i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
