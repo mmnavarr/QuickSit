@@ -39,6 +39,8 @@ public class Restaurant implements Parcelable{
         this.latitude = lat;
         this.longitude = lon;
 
+        this.waitTime = 0;
+
         this.userLocation = new Location("User");
         userLocation.setLatitude(lat);
         userLocation.setLongitude(lon);
@@ -50,12 +52,16 @@ public class Restaurant implements Parcelable{
         this.type = type;
         this.password = pass;
         this.userLocation = loc;
+
+        this.waitTime = 0;
     }
 
     public Restaurant(String name, String pass, Location loc){
         this.name = name;
         this.password = pass;
         this.userLocation = loc;
+
+        this.waitTime = 0;
     }
 
 
