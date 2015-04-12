@@ -159,6 +159,8 @@ public class ListActivity extends Activity {
     class LoadAllRestaurants extends AsyncTask<String, String, String> {
 
 
+        private ArrayList<Restaurant> pulledRests;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -188,6 +190,10 @@ public class ListActivity extends Activity {
                     // Getting Array of Restaurants
                     restaurants = json.getJSONArray(TAG_RESTAURANTS);
 
+
+                    //DECLARE RESTAURANT ARRAYLIST FOR LIST
+                    ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
+
                     // looping through All Restaurants
                     for (int i = 0; i < restaurants.length(); i++) {
                         JSONObject c = restaurants.getJSONObject(i);
@@ -198,14 +204,14 @@ public class ListActivity extends Activity {
                         String rest_yelp = c.getString(TAG_REST_YELP);
                         String rest_menu = c.getString(TAG_REST_MENU);
                         String rest_phone = c.getString(TAG_REST_PHONE);
-                        String rest_reservation = c.getString(TAG_REST_RES);
-                        String rest_wait = c.getString(TAG_REST_WAIT);
-                        String rest_lat = c.getString(TAG_REST_LAT);
-                        String rest_long = c.getString(TAG_REST_LONG);
+                        Boolean rest_reservation = c.getBoolean(TAG_REST_RES);
+                        double rest_lat = c.getDouble(TAG_REST_LAT);
+                        double rest_long = c.getDouble(TAG_REST_LONG);
+                        int rest_wait = c.getInt(TAG_REST_WAIT);
 
 
-                        //Restaurant r = new Restaurant(rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_wait,rest_lat,rest_long);
-                        //rests.add(r);
+                        Restaurant r = new Restaurant(rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
+                        rests.add(r);
                     }
 
                 } else {
@@ -219,7 +225,8 @@ public class ListActivity extends Activity {
         }
 
         //After completing background task Dismiss the progress dialog
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(ArrayList<Restaurant> rests) {
+            array = rests;
 
             // dismiss the dialog after getting all restaurants
             pDialog.dismiss();

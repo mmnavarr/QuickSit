@@ -68,7 +68,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/button"
-            android:layout_toStartOf="@+id/button" />
+            android:layout_toStartOf="@+id/button"
+            android:textColor="#CE123E" />
 
         <Button
             android:layout_width="wrap_content"
@@ -81,7 +82,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_toRightOf="@+id/button"
-            android:layout_toEndOf="@+id/button" />
+            android:layout_toEndOf="@+id/button"
+            android:textColor="#CE123E" />
 
         <Button
             android:layout_width="wrap_content"

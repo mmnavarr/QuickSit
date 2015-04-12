@@ -40,13 +40,12 @@ public class Restaurant implements Parcelable{
 
     protected Location resLocation; // The restaurant's geographical location
 
-    public Restaurant (String name, String type, String yelp, String menu, String pass,
+    public Restaurant (String name, String type, String yelp, String menu,
                        String phone, Boolean res, double lat, double lon, int wait){
         this.name = name;
         this.type = type;
         this.yelpURL = yelp;
         this.menuURL = menu;
-        this.password = pass;
         this.phone = phone;
         this.takesRes = res;
         this.waitTime = wait;
