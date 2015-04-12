@@ -228,31 +228,7 @@ public class ResActivity extends ActionBarActivity {
                         return false;
                     }
 
-                    /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
 
-                    alertDialogBuilder.setView(R.layout.make_dialog);
-
-                    // set dialog message
-                    alertDialogBuilder
-                            .setCancelable(false)
-                            .setPositiveButton("OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            //HTTPOST REQUEST TO HOST SIDE
-                                        }
-                                    })
-                            .setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();*/
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //style for un-touch
                     make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));

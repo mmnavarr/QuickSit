@@ -24,7 +24,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,11 +34,13 @@
         </activity>
         <activity
             android:name=".ResActivity"
-            android:label="@string/res_title" >
+            android:label="@string/res_title"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="@string/list_title" >
+            android:label="@string/list_title"
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data
