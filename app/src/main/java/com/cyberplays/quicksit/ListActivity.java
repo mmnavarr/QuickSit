@@ -63,8 +63,6 @@ public class ListActivity extends Activity {
     private static final String TAG_REST_WAIT = "rest_wait_time";
     private static final String TAG_REST_RES = "rest_res";
 
-    ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
-
     // create Restaurants JSONArray
     JSONArray restaurants = null;
 
@@ -158,8 +156,8 @@ public class ListActivity extends Activity {
     //Background Async Task to Load all restaurants by making HTTP Request
     class LoadAllRestaurants extends AsyncTask<String, String, String> {
 
-
-        private ArrayList<Restaurant> pulledRests;
+        //DECLARE RESTAURANT ARRAYLIST FOR LIST
+        public ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
 
         @Override
         protected void onPreExecute() {
@@ -190,9 +188,6 @@ public class ListActivity extends Activity {
                     // Getting Array of Restaurants
                     restaurants = json.getJSONArray(TAG_RESTAURANTS);
 
-
-                    //DECLARE RESTAURANT ARRAYLIST FOR LIST
-                    ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
 
                     // looping through All Restaurants
                     for (int i = 0; i < restaurants.length(); i++) {
@@ -225,7 +220,7 @@ public class ListActivity extends Activity {
         }
 
         //After completing background task Dismiss the progress dialog
-        protected void onPostExecute(ArrayList<Restaurant> rests) {
+        protected void onPostExecute() {
             array = rests;
 
             // dismiss the dialog after getting all restaurants
