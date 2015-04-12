@@ -35,6 +35,8 @@ public class Restaurant implements Parcelable{
     private double latitude;  // Latitude of the restaurant's location
     private double longitude; // Longitude of the restaurant's location
     private int waitTime;     // The estimated wait time to eat at the restaurant
+    private int capacity;
+    private int customers;
 
     protected Location resLocation; // The restaurant's geographical location
 
@@ -157,7 +159,6 @@ public class Restaurant implements Parcelable{
         out.writeString(yelpURL);
         out.writeString(menuURL);
         out.writeString(phone);
-
         out.writeDouble(latitude);
         out.writeDouble(longitude);
         out.writeValue(resLocation);
@@ -170,6 +171,7 @@ public class Restaurant implements Parcelable{
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
         this.yelpURL = in.readString();
+        this.menuURL = in.readString();
         this.name = in.readString();
         this.type = in.readString();
         this.resLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
