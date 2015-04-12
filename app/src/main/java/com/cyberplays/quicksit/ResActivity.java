@@ -46,7 +46,7 @@ import java.util.List;
 
 public class ResActivity extends ActionBarActivity {
 
-    private TextView name, addr, type;
+    private TextView name, addr, type, wait;
     private Button menu, yelp, make;
     private GoogleMap map;
     private Intent i;
@@ -95,6 +95,9 @@ public class ResActivity extends ActionBarActivity {
 
         type = (TextView) findViewById(R.id.res_type);
         type.setText(restaurant.getType() + " Cuisine");
+
+        wait = (TextView) findViewById(R.id.wait_time);
+        wait.setText(Integer.toString(restaurant.getWait()));
 
         initButtons();
     }
@@ -173,7 +176,7 @@ public class ResActivity extends ActionBarActivity {
 
 
                     //Send them to menu URL
-                    String url = "http://altocinco.net/menu/";
+                    String url = restaurant.getMenuURL();
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);

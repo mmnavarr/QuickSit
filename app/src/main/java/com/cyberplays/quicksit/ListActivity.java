@@ -1,8 +1,10 @@
 package com.cyberplays.quicksit;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +21,13 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListActivity extends Activity {
@@ -32,7 +40,34 @@ public class ListActivity extends Activity {
     private User user;
     public Location myLocation;
 
-//kjsfhdg
+    // Progress Dialog
+    private ProgressDialog pDialog;
+
+    // Creating JSON Parser object
+    org.json.simple.parser.JSONParser jParser = new org.json.simple.parser.JSONParser();
+
+    // url to get all restaurants list
+    private static String url_all_restaurants = "http://cyberplays.com/quicksit/webservice/get_all_restaurants.php";
+
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_RESTAURANTS = "restaurants";
+    private static final String TAG_REST_ID = "rest_id";
+    private static final String TAG_REST_NAME = "rest_name";
+    private static final String TAG_REST_TYPE = "rest_type";
+    private static final String TAG_REST_YELP = "rest_yelp";
+    private static final String TAG_REST_MENU = "rest_menu";
+    private static final String TAG_REST_LAT = "rest_lat";
+    private static final String TAG_REST_LONG = "rest_long";
+    private static final String TAG_REST_PHONE = "rest_phone";
+    private static final String TAG_REST_WAIT = "rest_wait_time";
+    private static final String TAG_REST_RES = "rest_res";
+
+    ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
+
+    // create Restaurants JSONArray
+    JSONArray restaurants = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +76,9 @@ public class ListActivity extends Activity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_list);
             Bundle b = getIntent().getExtras();
+
+            // Loading restaurants in Background Thread
+            new LoadAllRestaurants().execute();
 
             if (b != null){
                 user = b.getParcelable("User");
@@ -95,15 +133,7 @@ public class ListActivity extends Activity {
     private void initList() {
         mListView = (ListView) findViewById(R.id.list);
 
-        //Add Restaurants to array.
-        array.add(new Restaurant("Alto Cinco","Mexican",43.041165,-76.119486));
-        array.add(new Restaurant("Pastabilities", "Italian",43.04831,-76.155311));
-        array.add(new Restaurant("Dinosaur Bar-B-Que", "Southern BBQ",43.05249,-76.15467));
-        array.add(new Restaurant("The Mission Restaurant", "Mexican",43.04812,	-76.14742));
-        array.add(new Restaurant("Francesca's Cucina", "American",43.058505,-76.152333));
-        array.add(new Restaurant("Tully's Good Times", "American",43.056009,-76.088804));
-        array.add(new Restaurant("Lemon Grass", "Thai",43.047555,-76.154434));
-        array.add(new Restaurant("Stella's Diner", "American",43.06908,-76.165269));
+
 
         //Create list adapter with layout and array of restaurants to populate
         adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, array, myLocation);
@@ -114,11 +144,86 @@ public class ListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
-                i.putExtra("restaurant", array.get(position));
+                i.putExtra("name", array.get(position).getName());
+                i.putExtra("type", array.get(position).getType());
+                i.putExtra("lat", array.get(position).getLat());
+                i.putExtra("lng", array.get(position).getLong());
                 i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
         });
+    }
+
+    //Background Async Task to Load all restaurants by making HTTP Request
+    class LoadAllRestaurants extends AsyncTask<String, String, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ListActivity.this);
+            pDialog.setMessage("Loading restaurants. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        //getting all restaurants
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            JSONObject json = com.cyberplays.quicksit.JSONParser.makeHttpRequest(url_all_restaurants, "GET", params);
+
+            // Check your log cat for JSON reponse
+            Log.d("All Restaurants: ", json.toString());
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // restaurants found
+                    // Getting Array of Restaurants
+                    restaurants = json.getJSONArray(TAG_RESTAURANTS);
+
+                    // looping through All Restaurants
+                    for (int i = 0; i < restaurants.length(); i++) {
+                        JSONObject c = restaurants.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String rest_name = c.getString(TAG_REST_NAME);
+                        String rest_type = c.getString(TAG_REST_TYPE);
+                        String rest_yelp = c.getString(TAG_REST_YELP);
+                        String rest_menu = c.getString(TAG_REST_MENU);
+                        String rest_phone = c.getString(TAG_REST_PHONE);
+                        String rest_reservation = c.getString(TAG_REST_RES);
+                        String rest_wait = c.getString(TAG_REST_WAIT);
+                        String rest_lat = c.getString(TAG_REST_LAT);
+                        String rest_long = c.getString(TAG_REST_LONG);
+
+
+                        //Restaurant r = new Restaurant(rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_wait,rest_lat,rest_long);
+                        //rests.add(r);
+                    }
+
+                } else {
+                    return null;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        //After completing background task Dismiss the progress dialog
+        protected void onPostExecute(String file_url) {
+
+            // dismiss the dialog after getting all restaurants
+            pDialog.dismiss();
+        }
+
     }
 }

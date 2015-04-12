@@ -106,18 +106,9 @@ public class Restaurant implements Parcelable{
         return round((resLocation.distanceTo(l)/1609.34),2);
     }
 
-    public double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
     public double getLat() {
         return this.latitude;
     }
-
     public double getLong(){
         return this.longitude;
     }
@@ -132,9 +123,21 @@ public class Restaurant implements Parcelable{
     public String getYelpURL() {
         return yelpURL;
     }
-
     public void setYelpURL(String yelpURL) {
         this.yelpURL = yelpURL;
+    }
+    public String getMenuURL() {
+        return menuURL;
+    }
+    public void setMenuURL(String menuURL) {
+        this.menuURL = menuURL;
+    }
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public int describeContents() {

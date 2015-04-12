@@ -14,6 +14,7 @@
     <string name="list_item_name">Pastabilities</string>
     <string name="list_item_type">Italian Cuisine</string>
     <string name="list_item_dist">1.6 mi</string>
+    <string name="wait_time">30 min.</string>
 
     <string name="psize">0</string>
     <string name="dsize">0</string>
