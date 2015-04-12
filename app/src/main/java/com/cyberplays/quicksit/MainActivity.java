@@ -310,7 +310,7 @@ public class MainActivity extends ActionBarActivity {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
-
+//gh
 
     }
     private boolean isNetworkAvailable() {
