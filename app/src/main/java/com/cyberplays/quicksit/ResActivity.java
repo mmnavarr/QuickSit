@@ -192,16 +192,20 @@ public class ResActivity extends ActionBarActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //stlye for touches
-                    yelp.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
-                    yelp.setTextColor(getResources().getColor(R.color.white));
+                    //Style
+                    menu.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    menu.setTextColor(getResources().getColor(R.color.white));
 
-                    //MAKE A YELP CALL....
+                    //Send them to YELP URL getyelpurl
+                    String url = restaurant.getYelpURL();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //style for un-touche
-                    yelp.setBackgroundColor(getResources().getColor(R.color.white));
-                    yelp.setTextColor(getResources().getColor(R.color.shittyRoses));
+                    menu.setBackgroundColor(getResources().getColor(R.color.white));
+                    menu.setTextColor(getResources().getColor(R.color.shittyRoses));
                 }
                 return false;
             }

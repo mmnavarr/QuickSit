@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'QuickSitKey'
             keyPassword 'quicksitkey'
-            storeFile file('/Users/Sam/cis444/AndroidStudioProjects/QuickSit/external/android.jks')
+            storeFile file('/Users/KevinKongMAC/CIS 454//QuickSit/external/android.jks')
             storePassword 'Xyzlol!1'
         }
     }
