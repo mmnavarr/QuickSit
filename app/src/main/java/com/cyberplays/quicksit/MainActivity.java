@@ -24,6 +24,8 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.os.Build;
 import android.text.TextUtils;
+import android.net.NetworkInfo;
+import android.net.ConnectivityManager;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -127,6 +129,10 @@ public class MainActivity extends ActionBarActivity {
         find.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (isNetworkAvailable()){
+                    Toast.makeText(getApplicationContext(), "Internet Connection Unavailable", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     //style for touches
                     find.setBackgroundColor(getResources().getColor(R.color.white));
@@ -306,5 +312,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }

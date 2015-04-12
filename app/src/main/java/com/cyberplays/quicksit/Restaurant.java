@@ -24,26 +24,47 @@ import java.math.RoundingMode;
  */
 public class Restaurant implements Parcelable{
 
-    protected String name;
-    protected String type;
-    private String yelpURL;
-    private String menuUrl;
-    private String password;
-    private double latitude;
-    private double longitude;
-    private int waitTime;
+    protected String name;    // Name of the restaurant
+    protected String type;    // Type of food the restaurant serves
+    private String userName;
+    private String yelpURL;   // URL for yelp page
+    private String menuURL;   // URL for restaurant menu
+    private String password;  // Password for database
+    private String phone;     // Restaurant phone number
+    private Boolean takesRes; // True if the restaurant takes reservations
+    private double latitude;  // Latitude of the restaurant's location
+    private double longitude; // Longitude of the restaurant's location
+    private int waitTime;     // The estimated wait time to eat at the restaurant
 
-    protected Location userLocation;
+    protected Location resLocation; // The restaurant's geographical location
 
+    public Restaurant (String name, String type, String yelp, String menu, String pass,
+                       String phone, Boolean res, double lat, double lon, int wait){
+        this.name = name;
+        this.type = type;
+        this.yelpURL = yelp;
+        this.menuURL = menu;
+        this.password = pass;
+        this.phone = phone;
+        this.takesRes = res;
+        this.waitTime = wait;
+
+        this.latitude = lat;
+        this.longitude = lon;
+        this.resLocation = new Location("User");
+        resLocation.setLatitude(lat);
+        resLocation.setLongitude(lon);
+
+    }
     public Restaurant(String name, String type,double lat, double lon) {
         this.name = name;
         this.type = type;
         this.latitude = lat;
         this.longitude = lon;
         this.waitTime = 0;
-        this.userLocation = new Location("User");
-        userLocation.setLatitude(lat);
-        userLocation.setLongitude(lon);
+        this.resLocation = new Location("User");
+        resLocation.setLatitude(lat);
+        resLocation.setLongitude(lon);
 
     }
 
@@ -51,7 +72,7 @@ public class Restaurant implements Parcelable{
         this.name = name;
         this.type = type;
         this.password = pass;
-        this.userLocation = loc;
+        this.resLocation = loc;
 
         this.waitTime = 0;
     }
@@ -59,7 +80,7 @@ public class Restaurant implements Parcelable{
     public Restaurant(String name, String pass, Location loc){
         this.name = name;
         this.password = pass;
-        this.userLocation = loc;
+        this.resLocation = loc;
 
         this.waitTime = 0;
     }
@@ -80,7 +101,7 @@ public class Restaurant implements Parcelable{
     }
 
     public double getDist(Location l) {
-        return round((userLocation.distanceTo(l)/1609.34),2);
+        return round((resLocation.distanceTo(l)/1609.34),2);
     }
 
     public double round(double value, int places) {
@@ -99,22 +120,19 @@ public class Restaurant implements Parcelable{
         return this.longitude;
     }
     public Location getLoc() {
-        return userLocation;
+        return resLocation;
     }
     public void setLoc(Location loc) {
-        this.userLocation = loc;
+        this.resLocation = loc;
     }
     public void setWait(int wait){this.waitTime = wait;}
     public int getWait(){return this.waitTime;}
-    public String waitDescription() {
-        if (getWait() < 60) {
-            return (Integer.toString(getWait()) + " min.");
-        }
-        int hours = getWait()/60;
-        int minutes = getWait()%60;
-        String hrs = Integer.toString(hours);
-        String mins = Integer.toString(minutes);
-        return (hrs + " hrs. " + mins + " mins.");
+    public String getYelpURL() {
+        return yelpURL;
+    }
+
+    public void setYelpURL(String yelpURL) {
+        this.yelpURL = yelpURL;
     }
 
     public int describeContents() {
@@ -135,9 +153,16 @@ public class Restaurant implements Parcelable{
         out.writeInt(waitTime);
         out.writeString(name);
         out.writeString(type);
+        out.writeString(userName);
+        out.writeString(yelpURL);
+        out.writeString(menuURL);
+        out.writeString(phone);
+
         out.writeDouble(latitude);
         out.writeDouble(longitude);
-        out.writeValue(userLocation);
+        out.writeValue(resLocation);
+
+
     }
 
     public Restaurant(Parcel in){
@@ -146,7 +171,7 @@ public class Restaurant implements Parcelable{
         this.longitude = in.readDouble();
         this.name = in.readString();
         this.type = in.readString();
-        this.userLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
+        this.resLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
     }
 
 }
