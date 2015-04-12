@@ -52,6 +52,7 @@ public class ResActivity extends ActionBarActivity {
     private Intent i;
     private double lat, lng;
     private User user;
+    private Restaurant restaurant;
 
 
     @Override
@@ -68,6 +69,11 @@ public class ResActivity extends ActionBarActivity {
             //Get the Intent that started this activity
             i = getIntent();
             user = i.getParcelableExtra("user");
+            restaurant = i.getParcelableExtra("restaurant");
+
+            lat = restaurant.getLat();
+            lng = restaurant.getLong();
+
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
                 initMap();
@@ -82,13 +88,13 @@ public class ResActivity extends ActionBarActivity {
 
     protected void initViews() {
         name = (TextView) findViewById(R.id.res_name);
-        name.setText(i.getStringExtra("name"));
+        name.setText(restaurant.getName());
 
         addr = (TextView) findViewById(R.id.res_addr);
         addr.setText(getAddress());
 
         type = (TextView) findViewById(R.id.res_type);
-        type.setText(i.getStringExtra("type") + " Cuisine");
+        type.setText(restaurant.getType() + " Cuisine");
 
         initButtons();
     }
@@ -113,15 +119,16 @@ public class ResActivity extends ActionBarActivity {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment2)).getMap();
 
         //Get latitude and logitude
-        lat = i.getDoubleExtra("lat", 43.041165);
-        lng = i.getDoubleExtra("lng", -76.119486);
+        lat = restaurant.getLat();
+        lng = restaurant.getLong();
+
         LatLng loc = new LatLng(lat,lng);
 
         //Add that specific restaurant to the map
         map.addMarker(new MarkerOptions()
                 .position(loc)
-                .title(i.getStringExtra("name"))
-                .snippet(i.getStringExtra("type")));
+                .title(restaurant.getName())
+                .snippet(restaurant.getType()));
 
         // Move the camera instantly to hamburg with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 6));

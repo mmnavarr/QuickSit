@@ -20,6 +20,10 @@ import android.widget.Toast;
 import android.view.View.OnClickListener;
 import java.io.IOException;
 import java.util.List;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
+import android.os.Build;
+import android.text.TextUtils;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -30,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     ImageButton currLocation;
     Boolean lServices;
     SeekBar rangeBar, pSizeBar;
+    Context c;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Location lastKnownLocation, currentBestLocation;
@@ -39,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        c = this;
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
@@ -62,30 +68,34 @@ public class MainActivity extends ActionBarActivity {
 
     //Sets up necessary location services variables/methods
     private void locationSetup() {
+        if (isLocationEnabled(c)) {
+            lServices = false;
+            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        lServices = false;
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        // Define a listener that responds to location updates
-        locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                if (isBetterLocation(location,currentBestLocation)){
-                    currentBestLocation = location;
+            // Define a listener that responds to location updates
+            locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                    if (isBetterLocation(location, currentBestLocation)) {
+                        currentBestLocation = location;
+                    }
                 }
-            }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
 
-            public void onProviderEnabled(String provider) {}
+                public void onProviderEnabled(String provider) {
+                }
 
-            public void onProviderDisabled(String provider) {}
-        };
+                public void onProviderDisabled(String provider) {
+                }
+            };
 
-        // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        currentBestLocation = lastKnownLocation;
+            // Register the listener with the Location Manager to receive location updates
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
+            lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            currentBestLocation = lastKnownLocation;
+        }
     }
 
     //Sets up buttons
@@ -96,11 +106,20 @@ public class MainActivity extends ActionBarActivity {
         currLocation.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
-                double latitude = currentBestLocation.getLatitude();
-                double longitude = currentBestLocation.getLongitude();
-                String address = getAddress(latitude, longitude);
-                addr.setHint(address);
-                lServices = true;
+                if (isLocationEnabled(c)) {
+                    if (currentBestLocation==null){
+                        Toast.makeText(getApplicationContext(), "No location.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    double latitude = currentBestLocation.getLatitude();
+                    double longitude = currentBestLocation.getLongitude();
+                    String address = getAddress(latitude, longitude);
+                    addr.setHint(address);
+                    lServices = true;
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Please turn on location services.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -265,5 +284,27 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static boolean isLocationEnabled(Context context) {
+        int locationMode = 0;
+        String locationProviders;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            try {
+                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+            } catch (SettingNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+
+        }else{
+            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+
+
     }
 }

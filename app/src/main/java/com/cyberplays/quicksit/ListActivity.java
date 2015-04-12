@@ -114,10 +114,7 @@ public class ListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
-                i.putExtra("name", array.get(position).getName());
-                i.putExtra("type", array.get(position).getType());
-                i.putExtra("lat", array.get(position).getLat());
-                i.putExtra("lng", array.get(position).getLong());
+                i.putExtra("restaurant", array.get(position));
                 i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");

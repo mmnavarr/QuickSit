@@ -26,6 +26,8 @@ public class Restaurant implements Parcelable{
 
     protected String name;
     protected String type;
+    private String yelpURL;
+    private String menuUrl;
     private String password;
     private double latitude;
     private double longitude;
@@ -38,9 +40,7 @@ public class Restaurant implements Parcelable{
         this.type = type;
         this.latitude = lat;
         this.longitude = lon;
-
         this.waitTime = 0;
-
         this.userLocation = new Location("User");
         userLocation.setLatitude(lat);
         userLocation.setLongitude(lon);
@@ -106,6 +106,16 @@ public class Restaurant implements Parcelable{
     }
     public void setWait(int wait){this.waitTime = wait;}
     public int getWait(){return this.waitTime;}
+    public String waitDescription() {
+        if (getWait() < 60) {
+            return (Integer.toString(getWait()) + " min.");
+        }
+        int hours = getWait()/60;
+        int minutes = getWait()%60;
+        String hrs = Integer.toString(hours);
+        String mins = Integer.toString(minutes);
+        return (hrs + " hrs. " + mins + " mins.");
+    }
 
     public int describeContents() {
         return 0;
