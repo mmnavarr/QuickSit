@@ -169,6 +169,7 @@ public class Restaurant implements Parcelable{
         this.waitTime = in.readInt();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
+        this.yelpURL = in.readString();
         this.name = in.readString();
         this.type = in.readString();
         this.resLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
