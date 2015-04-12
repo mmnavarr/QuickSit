@@ -213,7 +213,7 @@ public class ResActivity extends ActionBarActivity {
                 return false;
             }
         });
-
+//ey
         make = (Button) findViewById(R.id.res_make);
         make.setOnTouchListener(new View.OnTouchListener() {
             @Override

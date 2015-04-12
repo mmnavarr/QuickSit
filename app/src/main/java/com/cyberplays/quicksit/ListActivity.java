@@ -120,7 +120,7 @@ public class ListActivity extends Activity {
                 .title(r.getName())
                 .snippet(r.getType()));
         }
-
+//ey
         // Move the camera instantly to hamburg with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(array.get(1).getLat(), array.get(1).getLong()), 6));
 

@@ -86,7 +86,7 @@ public class Restaurant implements Parcelable{
         this.waitTime = 0;
     }
 
-
+//ey
     public String getName() {
         return name;
     }
