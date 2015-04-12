@@ -129,7 +129,7 @@ public class MainActivity extends ActionBarActivity {
         find.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (isNetworkAvailable()){
+                if (!isNetworkAvailable()){
                     Toast.makeText(getApplicationContext(), "Internet Connection Unavailable", Toast.LENGTH_SHORT).show();
                     return false;
                 }
