@@ -222,8 +222,11 @@ public class ResActivity extends ActionBarActivity {
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
-
-                    Toast.makeText(getApplicationContext(), "Make Res Call", Toast.LENGTH_SHORT).show();
+                    if (!restaurant.takesReservations()){
+                        Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
+                                Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
 
                     /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
 

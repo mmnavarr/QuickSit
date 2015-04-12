@@ -105,7 +105,9 @@ public class Restaurant implements Parcelable{
     public double getDist(Location l) {
         return round((resLocation.distanceTo(l)/1609.34),2);
     }
-
+    public boolean takesReservations(){
+        return takesRes;
+    }
     public double getLat() {
         return this.latitude;
     }

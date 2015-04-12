@@ -113,6 +113,7 @@ public class ListActivity extends Activity {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment1)).getMap();
 
         //Loop through Restaurant array and add to map
+        bubbleSort();
         for (int i = 0; i < array.size(); i++) {
             Restaurant r = array.get(i);
 
@@ -225,5 +226,26 @@ public class ListActivity extends Activity {
             pDialog.dismiss();
         }
 
+    }
+
+    public void bubbleSort(){
+        int n = array.size();
+        while (n > 0){
+            int n2 = 0;
+            for (int i = 1; i<= (n-1); i++){
+                if (array.get(i-1).getDist(myLocation) > array.get(i).getDist(myLocation)){
+                    swap(array,i);
+                    n2 = i;
+                }
+            }
+            n = n2;
+        }
+    }
+
+    public void swap (ArrayList<Restaurant> array, int i){
+        Restaurant one = array.get(i-1);
+        Restaurant two = array.get(i);
+        array.set(i-1,two);
+        array.set(i,one);
     }
 }
