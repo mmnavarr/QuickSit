@@ -91,8 +91,9 @@ public class ListActivity extends Activity {
             new LoadAllRestaurants().execute();
 
             if (b != null){
-                user = b.getParcelable("User");
+                user = b.getParcelable("user");
             }
+
             myLocation = user.getLocation();
 
         }
@@ -152,7 +153,7 @@ public class ListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
                 //PASS FIELDS NEEDED IN NEXT ACTIVITY
-                i.putExtra("name", array.get(position).getName());
+                /*i.putExtra("name", array.get(position).getName());
                 i.putExtra("type", array.get(position).getType());
                 i.putExtra("lat", array.get(position).getLat());
                 i.putExtra("lng", array.get(position).getLong());
@@ -160,7 +161,12 @@ public class ListActivity extends Activity {
                 i.putExtra("menu", array.get(position).getMenuURL());
                 i.putExtra("yelp", array.get(position).getYelpURL());
                 i.putExtra("takesRes", array.get(position).takesReservations());
+*/
+                Bundle b = new Bundle();
+                b.putParcelable("user", user);
+                b.putParcelable("restaurant", array.get(position));
 
+                i.putExtras(b);
                 //i.putExtra("restaurant", array.get(position));
                 //i.putExtra("user", user);
                 startActivity(i);
@@ -290,9 +296,9 @@ public class ListActivity extends Activity {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
             } catch (UnsupportedEncodingException ee) {
-                Log.i("UnsupportedEncodingException...", is.toString());
+                //Log.i("UnsupportedEncodingException...", is.toString());
             } catch (ClientProtocolException e) {
-                Log.i("ClientProtocolException...", is.toString());
+                //Log.i("ClientProtocolException...", is.toString());
             } catch (IOException e) {
                 Log.i("IOException...", is.toString());
             }

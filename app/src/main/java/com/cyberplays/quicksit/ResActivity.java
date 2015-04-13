@@ -52,11 +52,15 @@ public class ResActivity extends ActionBarActivity {
             i = getIntent();
             //user = i.getParcelableExtra("user");
             //restaurant = i.getParcelableExtra("restaurant");
-
+            Bundle b = getIntent().getExtras();
+            if (b != null){
+                user = b.getParcelable("user");
+                restaurant = b.getParcelable("restaurant");
+            }
 
 
             // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
-            lat = i.getDoubleExtra("lat", 41.11);
+            /*lat = i.getDoubleExtra("lat", 41.11);
             lng = i.getDoubleExtra("lng", 41.11);
             String rName = i.getStringExtra("name");
             String rType = i.getStringExtra("type");
@@ -65,7 +69,7 @@ public class ResActivity extends ActionBarActivity {
             String menuURL = i.getStringExtra("menu");
             Boolean takesRes = i.getBooleanExtra("reservable", Boolean.FALSE);
             restaurant = new Restaurant(rName,rType, lat, lng, rWait, yelpURL, menuURL, takesRes);
-
+*/
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
                 initMap();

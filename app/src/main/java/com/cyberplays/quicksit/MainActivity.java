@@ -169,8 +169,12 @@ public class MainActivity extends ActionBarActivity {
                     //store relevant information in a parcelable user object
                     User user = new User(partySize, range, currentBestLocation);
 
+                    Bundle b = new Bundle();
+                    b.putParcelable("user", user);
+
                     Intent i = new Intent(getApplicationContext(), ListActivity.class);
-                    i.putExtra("User", user);
+                    i.putExtras(b);
+
                     startActivity(i);
                     Log.d("view DEBUG", "FIND!");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
