@@ -37,7 +37,6 @@ public class Restaurant implements Parcelable{
     private int waitTime;     // The estimated wait time to eat at the restaurant
     private int capacity;
     private int customers;
-
     protected Location resLocation; // The restaurant's geographical location
 
     public Restaurant (String name, String type, String yelp, String menu,
@@ -57,12 +56,16 @@ public class Restaurant implements Parcelable{
         resLocation.setLongitude(lon);
 
     }
-    public Restaurant(String name, String type,double lat, double lon) {
+    public Restaurant(String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, Boolean takesRes) {
         this.name = name;
         this.type = type;
         this.latitude = lat;
         this.longitude = lon;
-        this.waitTime = 0;
+        this.waitTime = wait;
+        this.yelpURL = yelpURL;
+        this.menuURL = menuURL;
+        this.takesRes = takesRes;
+
         this.resLocation = new Location("User");
         resLocation.setLatitude(lat);
         resLocation.setLongitude(lon);
@@ -86,7 +89,7 @@ public class Restaurant implements Parcelable{
         this.waitTime = 0;
     }
 
-//ey
+    // SET+GET FOR NAME
     public String getName() {
         return name;
     }
@@ -94,6 +97,7 @@ public class Restaurant implements Parcelable{
         this.name = name;
     }
 
+    // SET+GET FOR TYPE
     public String getType() {
         return type;
     }
@@ -104,9 +108,12 @@ public class Restaurant implements Parcelable{
     public double getDist(Location l) {
         return round((resLocation.distanceTo(l)/1609.34),2);
     }
+
     public boolean takesReservations(){
         return takesRes;
     }
+
+    // SET+GET FOR Lat, Lng, and Location
     public double getLat() {
         return this.latitude;
     }
@@ -119,8 +126,12 @@ public class Restaurant implements Parcelable{
     public void setLoc(Location loc) {
         this.resLocation = loc;
     }
+
+    // SET+GET FOR WAIT TIME (INT)
     public void setWait(int wait){this.waitTime = wait;}
     public int getWait(){return this.waitTime;}
+
+    // SET+GET FOR YELP and MENU urls
     public String getYelpURL() {
         return yelpURL;
     }
@@ -133,6 +144,9 @@ public class Restaurant implements Parcelable{
     public void setMenuURL(String menuURL) {
         this.menuURL = menuURL;
     }
+
+
+    // ROUND METHOD FOR LAT n LNG
     public double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
@@ -141,10 +155,14 @@ public class Restaurant implements Parcelable{
         return bd.doubleValue();
     }
 
+    //
     public int describeContents() {
         return 0;
     }
 
+
+
+    // MAKE THE OBJECT PARCELABLE IN ORDER TO PASS TO OTHER ACTIVITIES
     public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
         public Restaurant createFromParcel(Parcel in) {
             return new Restaurant(in);

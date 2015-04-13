@@ -1,13 +1,9 @@
 package com.cyberplays.quicksit;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -27,19 +23,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuthService;
-
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
 
 import java.util.List;
 
@@ -64,15 +47,24 @@ public class ResActivity extends ActionBarActivity {
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
             bar.hide();
-            //bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#CE123E")));
 
             //Get the Intent that started this activity
             i = getIntent();
-            user = i.getParcelableExtra("user");
-            restaurant = i.getParcelableExtra("restaurant");
+            //user = i.getParcelableExtra("user");
+            //restaurant = i.getParcelableExtra("restaurant");
 
-            lat = restaurant.getLat();
-            lng = restaurant.getLong();
+
+
+            // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
+            lat = i.getDoubleExtra("lat", 41.11);
+            lng = i.getDoubleExtra("lng", 41.11);
+            String rName = i.getStringExtra("name");
+            String rType = i.getStringExtra("type");
+            int rWait = i.getIntExtra("wait", 20);
+            String yelpURL = i.getStringExtra("yelp");
+            String menuURL = i.getStringExtra("menu");
+            Boolean takesRes = i.getBooleanExtra("reservable", Boolean.FALSE);
+            restaurant = new Restaurant(rName,rType, lat, lng, rWait, yelpURL, menuURL, takesRes);
 
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
@@ -97,7 +89,7 @@ public class ResActivity extends ActionBarActivity {
         type.setText(restaurant.getType() + " Cuisine");
 
         wait = (TextView) findViewById(R.id.wait_time);
-        wait.setText(Integer.toString(restaurant.getWait()));
+        wait.setText(Integer.toString(restaurant.getWait()) + " min.");
 
         initButtons();
     }
@@ -120,10 +112,6 @@ public class ResActivity extends ActionBarActivity {
 
     private void initMap() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment2)).getMap();
-
-        //Get latitude and logitude
-        lat = restaurant.getLat();
-        lng = restaurant.getLong();
 
         LatLng loc = new LatLng(lat,lng);
 
@@ -196,24 +184,25 @@ public class ResActivity extends ActionBarActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     //Style
-                    menu.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
-                    menu.setTextColor(getResources().getColor(R.color.white));
+                    yelp.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    yelp.setTextColor(getResources().getColor(R.color.white));
 
                     //Send them to YELP URL getyelpurl
                     String url = restaurant.getYelpURL();
+                    Log.d("URL STRING:", url);
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     //style for un-touche
-                    menu.setBackgroundColor(getResources().getColor(R.color.white));
-                    menu.setTextColor(getResources().getColor(R.color.shittyRoses));
+                    yelp.setBackgroundColor(getResources().getColor(R.color.white));
+                    yelp.setTextColor(getResources().getColor(R.color.shittyRoses));
                 }
                 return false;
             }
         });
-//ey
+
         make = (Button) findViewById(R.id.res_make);
         make.setOnTouchListener(new View.OnTouchListener() {
             @Override
