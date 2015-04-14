@@ -184,10 +184,7 @@ public class ListActivity extends Activity {
                 b.putParcelable("user", user);
                 Restaurant rest = array.get(position);
                 b.putParcelable("restaurant", rest);
-
                 i.putExtras(b);
-                //i.putExtra("restaurant", array.get(position));
-                //i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
@@ -259,9 +256,9 @@ public class ListActivity extends Activity {
                         double rest_lat = c.getDouble(TAG_REST_LAT);
                         double rest_long = c.getDouble(TAG_REST_LONG);
                         int rest_wait = c.getInt(TAG_REST_WAIT);
+                        int rest_id = c.getInt(TAG_REST_ID);
 
-
-                        Restaurant r = new Restaurant(rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
+                        Restaurant r = new Restaurant(rest_id,rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
                         rests.add(r);
                     }
                 } else {
