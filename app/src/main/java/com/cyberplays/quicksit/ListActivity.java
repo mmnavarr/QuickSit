@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 import android.location.Location;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -50,10 +52,12 @@ public class ListActivity extends Activity {
     private GoogleMap map;
     private ListView mListView;
 
+
     public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
     private User user;
     public Location myLocation;
+    private String choice;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -117,6 +121,7 @@ public class ListActivity extends Activity {
     }
 
 
+
     //INITIALIZE GOOGLE MAP FOR PAGE
     private void initMap() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment1)).getMap();
@@ -140,8 +145,29 @@ public class ListActivity extends Activity {
         map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
     }
 
+    private void initSpinner(){
+        Spinner options = (Spinner) findViewById(R.id.filter);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.genres_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        options.setAdapter(spinnerAdapter);
+        options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                choice = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     private void initList() {
+
         mListView = (ListView) findViewById(R.id.list);
 
         //Create list adapter with layout and array of restaurants to populate

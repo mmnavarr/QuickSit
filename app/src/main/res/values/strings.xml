@@ -15,6 +15,22 @@
     <string name="list_item_type">Italian Cuisine</string>
     <string name="list_item_dist">1.6 mi</string>
     <string name="wait_time">30 min.</string>
+    <string name="show">Show:</string>
+
+    <string-array name="genres_array">
+        <item>All</item>
+        <item>Italian</item>
+        <item>American</item>
+        <item>Chinese</item>
+        <item>Diner</item>
+        <item>Japanese</item>
+        <item>Pub</item>
+        <item>Indian</item>
+        <item>Mexican</item>
+        <item>Greek</item>
+        <item>Dessert</item>
+        <item>Other</item>
+    </string-array>
 
     <string name="psize">0</string>
     <string name="dsize">0</string>
