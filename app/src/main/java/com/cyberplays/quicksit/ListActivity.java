@@ -157,6 +157,8 @@ public class ListActivity extends Activity {
         options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                choice = (String) parent.getItemAtPosition(position);
+
                 if (choice.equalsIgnoreCase("all")){
                     filteredRests = allRests;
                 }
@@ -165,6 +167,7 @@ public class ListActivity extends Activity {
                         filteredRests.add(allRests.get(i));
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
