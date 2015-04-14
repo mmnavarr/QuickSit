@@ -31,14 +31,14 @@ public class Restaurant implements Parcelable{
     private String menuURL;   // URL for restaurant menu
     private String password;  // Password for database
     private String phone;     // Restaurant phone number
-    private Boolean takesRes; // True if the restaurant takes reservations
+    private int takesRes;     // 1 if the restaurant takes reservations, 0 if not
     private double latitude;  // Latitude of the restaurant's location
     private double longitude; // Longitude of the restaurant's location
     private int waitTime;     // The estimated wait time to eat at the restaurant
     protected Location resLocation; // The restaurant's geographical location
 
     public Restaurant (String name, String type, String yelp, String menu,
-                       String phone, Boolean res, double lat, double lon, int wait){
+                       String phone, int res, double lat, double lon, int wait){
         this.name = name;
         this.type = type;
         this.yelpURL = yelp;
@@ -55,7 +55,7 @@ public class Restaurant implements Parcelable{
         resLocation.setLongitude(lon);
 
     }
-    public Restaurant(String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, Boolean takesRes) {
+    public Restaurant(String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, int takesRes) {
         this.name = name;
         this.type = type;
         this.latitude = lat;
@@ -108,7 +108,7 @@ public class Restaurant implements Parcelable{
         return round((resLocation.distanceTo(l)/1609.34),2);
     }
 
-    public boolean takesReservations(){
+    public int takesReservations(){
         return takesRes;
     }
 

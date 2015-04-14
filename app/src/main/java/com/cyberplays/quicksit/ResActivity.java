@@ -32,7 +32,6 @@ public class ResActivity extends ActionBarActivity {
     private TextView name, addr, type, wait;
     private Button menu, yelp, make;
     private GoogleMap map;
-    private Intent i;
     private double lat, lng;
     private User user;
     private Restaurant restaurant;
@@ -48,41 +47,29 @@ public class ResActivity extends ActionBarActivity {
             ActionBar bar = getSupportActionBar();
             bar.hide();
 
-            //Get the Intent that started this activity
-            i = getIntent();
-            //user = i.getParcelableExtra("user");
-            //restaurant = i.getParcelableExtra("restaurant");
+            //Get the Intent bundle that started this activity to get objects
             Bundle b = getIntent().getExtras();
             if (b != null){
                 user = b.getParcelable("user");
                 restaurant = b.getParcelable("restaurant");
             }
+            //GET RESTAURANT LAT n LNG
             lat = restaurant.getLat();
             lng = restaurant.getLong();
 
-            // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
-            /*lat = i.getDoubleExtra("lat", 41.11);
-            lng = i.getDoubleExtra("lng", 41.11);
-            String rName = i.getStringExtra("name");
-            String rType = i.getStringExtra("type");
-            int rWait = i.getIntExtra("wait", 20);
-            String yelpURL = i.getStringExtra("yelp");
-            String menuURL = i.getStringExtra("menu");
-            Boolean takesRes = i.getBooleanExtra("reservable", Boolean.FALSE);
-            restaurant = new Restaurant(rName,rType, lat, lng, rWait, yelpURL, menuURL, takesRes);
-*/
-            //if Internet -> setup map
+            //IF INTERNET -> SETUP MAP
             if (isPlayServicesAvailable()) {
                 initMap();
             }
 
-            //Init the views with the passed Restaurant data
+            //INIT THE VIEWS WITH RESTAURANT DATA FIELDS
             initViews();
         }
 
     }
 
 
+    //INITIALIZE VIEWS
     protected void initViews() {
         name = (TextView) findViewById(R.id.res_name);
         name.setText(restaurant.getName());
@@ -100,6 +87,7 @@ public class ResActivity extends ActionBarActivity {
     }
 
 
+    //CHECK FOR PLAY SERVICES
     protected boolean isPlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
@@ -115,6 +103,7 @@ public class ResActivity extends ActionBarActivity {
         return (false);
     }
 
+    //INITIALIZE GOOGLE MAP + POPULATE
     private void initMap() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment2)).getMap();
 
@@ -126,7 +115,7 @@ public class ResActivity extends ActionBarActivity {
                 .title(restaurant.getName())
                 .snippet(restaurant.getType()));
 
-        // Move the camera instantly to hamburg with a zoom of 15.
+        // Move the camera instantly to restaurant with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 6));
 
         // Zoom in, animating the camera.
@@ -156,7 +145,7 @@ public class ResActivity extends ActionBarActivity {
         }
     }
 
-
+    //INTIALIZE BUTTONS
     public void initButtons() {
         menu = (Button) findViewById(R.id.menu);
         menu.setOnTouchListener(new View.OnTouchListener() {
@@ -216,7 +205,7 @@ public class ResActivity extends ActionBarActivity {
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
-                    if (!restaurant.takesReservations()){
+                    if (restaurant.takesReservations()==0){
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
