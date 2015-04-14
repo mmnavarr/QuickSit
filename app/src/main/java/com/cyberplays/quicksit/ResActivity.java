@@ -33,6 +33,7 @@ public class ResActivity extends ActionBarActivity {
     private Button menu, yelp, make;
     private GoogleMap map;
     private double lat, lng;
+    private int pSize;
     private User user;
     private Restaurant restaurant;
 
@@ -56,6 +57,8 @@ public class ResActivity extends ActionBarActivity {
             //GET RESTAURANT LAT n LNG
             lat = restaurant.getLat();
             lng = restaurant.getLong();
+            //GET USER PARTY SIZE
+            pSize = user.getSize();
 
             //IF INTERNET -> SETUP MAP
             if (isPlayServicesAvailable()) {
@@ -209,6 +212,9 @@ public class ResActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
+                    } else {
+                        //OPEN DIALOG FOR DATE AND TIME AND THEN HTTPOST IT
+                        dateNtimePicker();
                     }
 
 
@@ -220,6 +226,9 @@ public class ResActivity extends ActionBarActivity {
                 return false;
             }
         });
+    }
+
+    public void dateNtimePicker() {
 
     }
 
