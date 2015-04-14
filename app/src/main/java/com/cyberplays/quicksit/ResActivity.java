@@ -220,7 +220,7 @@ public class ResActivity extends ActionBarActivity {
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
-                    if (!restaurant.takesReservations()){
+                    if (restaurant.takesReservations()==0){
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
