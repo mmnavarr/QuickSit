@@ -310,7 +310,7 @@ public class ListActivity extends Activity {
             if (isPlayServicesAvailable()) {
                 initMap();
             }
-
+            initSpinner();
             initList();
         }
 
