@@ -57,7 +57,8 @@ public class ResActivity extends ActionBarActivity {
                 user = b.getParcelable("user");
                 restaurant = b.getParcelable("restaurant");
             }
-
+            lat = restaurant.getLat();
+            lng = restaurant.getLong();
 
             // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
             /*lat = i.getDoubleExtra("lat", 41.11);

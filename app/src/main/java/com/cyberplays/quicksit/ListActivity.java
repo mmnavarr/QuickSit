@@ -94,6 +94,7 @@ public class ListActivity extends Activity {
                 user = b.getParcelable("user");
             }
 
+            Log.d("view DEBUG", Integer.toString(user.getSize()));
             myLocation = user.getLocation();
 
         }
@@ -164,7 +165,8 @@ public class ListActivity extends Activity {
 */
                 Bundle b = new Bundle();
                 b.putParcelable("user", user);
-                b.putParcelable("restaurant", array.get(position));
+                Restaurant rest = array.get(position);
+                b.putParcelable("restaurant", rest);
 
                 i.putExtras(b);
                 //i.putExtra("restaurant", array.get(position));
