@@ -53,8 +53,7 @@ public class ListActivity extends Activity {
     private ListView mListView;
 
 
-    public ArrayList<Restaurant> allRests = new ArrayList<Restaurant>();
-    public ArrayList<Restaurant> filteredRests = new ArrayList<Restaurant>();
+    public ArrayList<Restaurant> array = new ArrayList<Restaurant>();
     private MyAdapter adapter;
     private User user;
     public Location myLocation;
@@ -130,8 +129,8 @@ public class ListActivity extends Activity {
         //Loop through Restaurant array and add to map
         bubbleSort();
 
-        for (int i = 0; i < filteredRests.size(); i++) {
-            Restaurant r = filteredRests.get(i);
+        for (int i = 0; i < array.size(); i++) {
+            Restaurant r = array.get(i);
 
             map.addMarker(new MarkerOptions()
                 .position(new LatLng(r.getLat(),r.getLong()))
@@ -140,8 +139,7 @@ public class ListActivity extends Activity {
         }
 
         // Move the camera instantly to hamburg with a zoom of 15.
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(filteredRests.get(1).getLat(),
-                filteredRests.get(1).getLong()), 6));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(array.get(1).getLat(), array.get(1).getLong()), 6));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
@@ -159,20 +157,11 @@ public class ListActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 choice = (String) parent.getItemAtPosition(position);
-                if (choice.equalsIgnoreCase("all")){
-                    filteredRests = allRests;
-                }
-                for (int i = 0; i < allRests.size(); i++){
-                    if (allRests.get(i).getType().equalsIgnoreCase(choice)){
-                        filteredRests.add(allRests.get(i));
-                    }
-                }
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                filteredRests = allRests;
+
             }
         });
     }
@@ -182,7 +171,7 @@ public class ListActivity extends Activity {
         mListView = (ListView) findViewById(R.id.list);
 
         //Create list adapter with layout and array of restaurants to populate
-        adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, filteredRests, myLocation);
+        adapter = new MyAdapter(getApplicationContext(), R.layout.listview_item, array, myLocation);
         //Set list adapter
         mListView.setAdapter(adapter);
         //Handle onclick to push all the information of click restaurant
@@ -190,10 +179,19 @@ public class ListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
-
+                //PASS FIELDS NEEDED IN NEXT ACTIVITY
+                /*i.putExtra("name", array.get(position).getName());
+                i.putExtra("type", array.get(position).getType());
+                i.putExtra("lat", array.get(position).getLat());
+                i.putExtra("lng", array.get(position).getLong());
+                i.putExtra("wait", array.get(position).getWait());
+                i.putExtra("menu", array.get(position).getMenuURL());
+                i.putExtra("yelp", array.get(position).getYelpURL());
+                i.putExtra("takesRes", array.get(position).takesReservations());
+*/
                 Bundle b = new Bundle();
                 b.putParcelable("user", user);
-                Restaurant rest = filteredRests.get(position);
+                Restaurant rest = array.get(position);
                 b.putParcelable("restaurant", rest);
 
                 i.putExtras(b);
@@ -296,7 +294,7 @@ public class ListActivity extends Activity {
         @Override
         protected void onPostExecute(String nothing) {
             //UPDATE ARRAY OF RESTAURANTS WITH ONES LOADES FROM DB
-            allRests = rests;
+            array = rests;
 
             // DISMISS DIALOG AFTER THE DB HAS BEENN PULLED
             pDialog.dismiss();
@@ -305,7 +303,6 @@ public class ListActivity extends Activity {
             if (isPlayServicesAvailable()) {
                 initMap();
             }
-            initSpinner();
 
             initList();
         }
@@ -394,12 +391,12 @@ public class ListActivity extends Activity {
 
     //BUBBLE SORT TO SORT LISTVIEW BASED ON DISTANCE TO RESTAURANTS
     public void bubbleSort(){
-        int n = filteredRests.size();
+        int n = array.size();
         while (n > 0){
             int n2 = 0;
             for (int i = 1; i<= (n-1); i++){
-                if (filteredRests.get(i-1).getDist(myLocation) > filteredRests.get(i).getDist(myLocation)){
-                    swap(filteredRests,i);
+                if (array.get(i-1).getDist(myLocation) > array.get(i).getDist(myLocation)){
+                    swap(array,i);
                     n2 = i;
                 }
             }

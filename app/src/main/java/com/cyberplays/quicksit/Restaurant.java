@@ -31,14 +31,16 @@ public class Restaurant implements Parcelable{
     private String menuURL;   // URL for restaurant menu
     private String password;  // Password for database
     private String phone;     // Restaurant phone number
-    private Boolean takesRes; // True if the restaurant takes reservations
+    private int takesRes;     // 1 if the restaurant takes reservations, 0 if not
+    private int resId;        // int of Restaurant ID
     private double latitude;  // Latitude of the restaurant's location
     private double longitude; // Longitude of the restaurant's location
     private int waitTime;     // The estimated wait time to eat at the restaurant
     protected Location resLocation; // The restaurant's geographical location
 
-    public Restaurant (String name, String type, String yelp, String menu,
-                       String phone, Boolean res, double lat, double lon, int wait){
+    public Restaurant (int resId, String name, String type, String yelp, String menu,
+                       String phone, int res, double lat, double lon, int wait){
+        this.resId = resId;
         this.name = name;
         this.type = type;
         this.yelpURL = yelp;
@@ -55,7 +57,8 @@ public class Restaurant implements Parcelable{
         resLocation.setLongitude(lon);
 
     }
-    public Restaurant(String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, Boolean takesRes) {
+    public Restaurant(int resId, String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, int takesRes) {
+        this.resId = resId;
         this.name = name;
         this.type = type;
         this.latitude = lat;
@@ -64,11 +67,9 @@ public class Restaurant implements Parcelable{
         this.yelpURL = yelpURL;
         this.menuURL = menuURL;
         this.takesRes = takesRes;
-
         this.resLocation = new Location("User");
         resLocation.setLatitude(lat);
         resLocation.setLongitude(lon);
-
     }
 
     public Restaurant(String name, String type, String pass, Location loc){
@@ -76,7 +77,6 @@ public class Restaurant implements Parcelable{
         this.type = type;
         this.password = pass;
         this.resLocation = loc;
-
         this.waitTime = 0;
     }
 
@@ -84,7 +84,6 @@ public class Restaurant implements Parcelable{
         this.name = name;
         this.password = pass;
         this.resLocation = loc;
-
         this.waitTime = 0;
     }
 
@@ -104,12 +103,12 @@ public class Restaurant implements Parcelable{
         this.type = type;
     }
 
-    public double getDist(Location l) {
-        return round((resLocation.distanceTo(l)/1609.34),2);
+    // SET+GET FOR resID
+    public int getResId() {
+        return resId;
     }
-
-    public boolean takesReservations(){
-        return takesRes;
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     // SET+GET FOR Lat, Lng, and Location
@@ -144,6 +143,14 @@ public class Restaurant implements Parcelable{
         this.menuURL = menuURL;
     }
 
+    public double getDist(Location l) {
+        return round((resLocation.distanceTo(l)/1609.34),2);
+    }
+
+    public int takesReservations(){
+        return takesRes;
+    }
+
 
     // ROUND METHOD FOR LAT n LNG
     public double round(double value, int places) {
@@ -154,11 +161,9 @@ public class Restaurant implements Parcelable{
         return bd.doubleValue();
     }
 
-    //
     public int describeContents() {
         return 0;
     }
-
 
 
     // MAKE THE OBJECT PARCELABLE IN ORDER TO PASS TO OTHER ACTIVITIES
@@ -184,7 +189,7 @@ public class Restaurant implements Parcelable{
         out.writeDouble(latitude);
         out.writeDouble(longitude);
         out.writeValue(resLocation);
-
+        out.writeInt(resId);
 
     }
 
@@ -200,6 +205,7 @@ public class Restaurant implements Parcelable{
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
         this.resLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
+        this.resId = in.readInt();
     }
 
 }
