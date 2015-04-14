@@ -232,7 +232,7 @@ public class ResActivity extends ActionBarActivity {
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
                     setDate();
 
-                    if (!restaurant.takesReservations()){
+                    if (restaurant.takesReservations()==0){
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
