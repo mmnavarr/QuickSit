@@ -49,7 +49,7 @@ public class ResActivity extends ActionBarActivity {
             bar.hide();
 
             //Get the Intent that started this activity
-            i = getIntent();
+
             //user = i.getParcelableExtra("user");
             //restaurant = i.getParcelableExtra("restaurant");
             Bundle b = getIntent().getExtras();
