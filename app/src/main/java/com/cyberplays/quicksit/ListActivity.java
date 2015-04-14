@@ -179,24 +179,13 @@ public class ListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ResActivity.class);
+
                 //PASS FIELDS NEEDED IN NEXT ACTIVITY
-                /*i.putExtra("name", array.get(position).getName());
-                i.putExtra("type", array.get(position).getType());
-                i.putExtra("lat", array.get(position).getLat());
-                i.putExtra("lng", array.get(position).getLong());
-                i.putExtra("wait", array.get(position).getWait());
-                i.putExtra("menu", array.get(position).getMenuURL());
-                i.putExtra("yelp", array.get(position).getYelpURL());
-                i.putExtra("takesRes", array.get(position).takesReservations());
-*/
                 Bundle b = new Bundle();
                 b.putParcelable("user", user);
                 Restaurant rest = array.get(position);
                 b.putParcelable("restaurant", rest);
-
                 i.putExtras(b);
-                //i.putExtra("restaurant", array.get(position));
-                //i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
@@ -264,21 +253,13 @@ public class ListActivity extends Activity {
                         String rest_yelp = c.getString(TAG_REST_YELP);
                         String rest_menu = c.getString(TAG_REST_MENU);
                         String rest_phone = c.getString(TAG_REST_PHONE);
-                        int rest_reservation_temp = c.getInt(TAG_REST_RES);
-
-                        Boolean rest_reservation = Boolean.TRUE;
-                        if (rest_reservation_temp == 0) {
-                            rest_reservation = Boolean.FALSE;
-                        } else if (rest_reservation_temp == 1) {
-                            rest_reservation = Boolean.TRUE;
-                        }
-
+                        int rest_reservation = c.getInt(TAG_REST_RES);
                         double rest_lat = c.getDouble(TAG_REST_LAT);
                         double rest_long = c.getDouble(TAG_REST_LONG);
                         int rest_wait = c.getInt(TAG_REST_WAIT);
+                        int rest_id = c.getInt(TAG_REST_ID);
 
-
-                        Restaurant r = new Restaurant(rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
+                        Restaurant r = new Restaurant(rest_id,rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
                         rests.add(r);
                     }
                 } else {
@@ -293,7 +274,7 @@ public class ListActivity extends Activity {
         //After completing background task Dismiss the progress dialog and set up UI
         @Override
         protected void onPostExecute(String nothing) {
-            //UPDATE ARRAY OF RESTAURANTS WITH ONES LOADES FROM DB
+            //UPDATE ARRAY OF RESTAURANTS WITH ONES LOADED FROM DB
             array = rests;
 
             // DISMISS DIALOG AFTER THE DB HAS BEENN PULLED

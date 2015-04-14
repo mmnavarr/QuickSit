@@ -35,6 +35,7 @@ public class ResActivity extends ActionBarActivity {
 
     private Intent i;
     private double lat, lng;
+    private int pSize;
     private User user;
     private Restaurant restaurant;
 
@@ -60,6 +61,8 @@ public class ResActivity extends ActionBarActivity {
             }
             lat = restaurant.getLat();
             lng = restaurant.getLong();
+            //GET USER PARTY SIZE
+            pSize = user.getSize();
 
             // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
             /*lat = i.getDoubleExtra("lat", 41.11);
@@ -221,6 +224,9 @@ public class ResActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
+                    } else {
+                        //OPEN DIALOG FOR DATE AND TIME AND THEN HTTPOST IT
+                        dateNtimePicker();
                     }
 
 
@@ -232,6 +238,9 @@ public class ResActivity extends ActionBarActivity {
                 return false;
             }
         });
+    }
+
+    public void dateNtimePicker() {
 
     }
 
