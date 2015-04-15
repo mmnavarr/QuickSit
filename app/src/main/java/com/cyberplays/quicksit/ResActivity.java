@@ -1,10 +1,11 @@
 package com.cyberplays.quicksit;
 
 
-import android.app.DatePickerDialog;
+
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
+
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -22,10 +23,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import com.android.datetimepicker.date.DatePickerDialog;
+import com.android.datetimepicker.time.RadialPickerLayout;
+import com.android.datetimepicker.time.TimePickerDialog;
 import java.util.Calendar;
 import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,7 +46,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 
-public class ResActivity extends ActionBarActivity {
+public class ResActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener, View.OnTouchListener{
 
     private TextView name, addr, type, wait;
     private Button menu, yelp, make;
@@ -49,6 +56,13 @@ public class ResActivity extends ActionBarActivity {
     private double lat, lng;
     private User user;
     private Restaurant restaurant;
+
+
+    //for reservations
+    private static final String TIME_PATTERN = "HH:mm";
+    private Calendar calendar;
+    private DateFormat dateFormat;
+    private SimpleDateFormat timeFormat;
 
     static final int dialog_id = 1; //DatePicker
     static final int dialog_id2= 2; //TimePicker
@@ -68,15 +82,13 @@ public class ResActivity extends ActionBarActivity {
             hour = today.get(Calendar.HOUR_OF_DAY);
             minute = today.get(Calendar.MINUTE);
 
-
+            dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+            timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
             bar.hide();
 
-            //Get the Intent that started this activity
-            i = getIntent();
-            //user = i.getParcelableExtra("user");
-            //restaurant = i.getParcelableExtra("restaurant");
+
             Bundle b = getIntent().getExtras();
             if (b != null){
                 user = b.getParcelable("user");
@@ -85,17 +97,7 @@ public class ResActivity extends ActionBarActivity {
             lat = restaurant.getLat();
             lng = restaurant.getLong();
 
-            // GET RESTAURANT DATA SINCE PARCELABLE OBJECT ISNT ABLE TO PASS ** FIXXXX
-            /*lat = i.getDoubleExtra("lat", 41.11);
-            lng = i.getDoubleExtra("lng", 41.11);
-            String rName = i.getStringExtra("name");
-            String rType = i.getStringExtra("type");
-            int rWait = i.getIntExtra("wait", 20);
-            String yelpURL = i.getStringExtra("yelp");
-            String menuURL = i.getStringExtra("menu");
-            Boolean takesRes = i.getBooleanExtra("reservable", Boolean.FALSE);
-            restaurant = new Restaurant(rName,rType, lat, lng, rWait, yelpURL, menuURL, takesRes);
-*/
+
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
                 initMap();
@@ -235,70 +237,52 @@ public class ResActivity extends ActionBarActivity {
 
 
         make = (Button) findViewById(R.id.res_make);
-        make.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //style for touch
-                    make.setBackgroundColor(getResources().getColor(R.color.white));
-                    make.setTextColor(getResources().getColor(R.color.shittyRoses));
+        make.setOnTouchListener(this);
+    }
 
-                    if (restaurant.takesReservations()==1){
-                        showDialog(dialog_id);
-                        showDialog(dialog_id2);
 
-                    }
+    @Override
+    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+        calendar.set(year, monthOfYear, dayOfMonth);
+        TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
+    }
 
-                    else {
-                        Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
-                                Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
 
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    //style for un-touch
-                    make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
-                    make.setTextColor(getResources().getColor(R.color.white));
-                }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            //style for touch
+            make.setBackgroundColor(getResources().getColor(R.color.white));
+            make.setTextColor(getResources().getColor(R.color.shittyRoses));
+
+            if (restaurant.takesReservations()==1){
+                DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+
+
+            }
+
+            else {
+                Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
+                        Toast.LENGTH_SHORT).show();
                 return false;
             }
-        });}
 
-    protected Dialog onCreateDialog(int id) {
-        switch(id)
-        {
-            case dialog_id:
-                return new DatePickerDialog(this,mDateSetListener,yr,month,day);
-            case dialog_id2:
-                return new TimePickerDialog(this,mTimeSetListener,hour,minute,false);
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            //style for un-touch
+            make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+            make.setTextColor(getResources().getColor(R.color.white));
         }
+        return false;
 
-      return null;
     }
-    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        yr = year;
-        month = monthOfYear;
-        day = dayOfMonth;
-
-        }
-    };
-
-    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-            new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view,
-                                      int hourOfDay, int hour_minute) {
-                    hour = hourOfDay;
-                    minute = hour_minute;
-                partySize = getIntent().getExtras().getInt("Psize");
-                Toast.makeText(getBaseContext(),"Settled Time :"+month+"/" +day +"/" +yr + " at " +hour +":"+minute +" for party of:" +partySize,Toast.LENGTH_LONG).show();
-
-
-                }
-            };
-
 }
 
 

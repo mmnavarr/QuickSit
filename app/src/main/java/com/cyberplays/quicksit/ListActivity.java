@@ -128,7 +128,7 @@ public class ListActivity extends Activity {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment1)).getMap();
 
         //Loop through Restaurant array and add to map
-        bubbleSort();
+
 
         for (int i = 0; i < filteredRests.size(); i++) {
             Restaurant r = filteredRests.get(i);
@@ -167,6 +167,7 @@ public class ListActivity extends Activity {
                         filteredRests.add(allRests.get(i));
                     }
                 }
+                bubbleSort();
                 adapter.notifyDataSetChanged();
             }
 
@@ -178,7 +179,7 @@ public class ListActivity extends Activity {
     }
 
     private void initList() {
-
+        bubbleSort();
         mListView = (ListView) findViewById(R.id.list);
 
         //Create list adapter with layout and array of restaurants to populate
