@@ -50,6 +50,10 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
+            //Sends partysize data to ResActivity
+            Intent i = new Intent(MainActivity.this, ResActivity.class);
+            i.putExtra("Psize",partySize);
+            startActivity(i);
 
             initViews();
         }
@@ -59,6 +63,9 @@ public class MainActivity extends ActionBarActivity {
         bar.hide();
 
     }
+
+
+
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);

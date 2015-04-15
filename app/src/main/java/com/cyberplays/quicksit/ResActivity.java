@@ -50,12 +50,24 @@ public class ResActivity extends ActionBarActivity {
     private User user;
     private Restaurant restaurant;
 
+    static final int dialog_id = 1; //DatePicker
+    static final int dialog_id2= 2; //TimePicker
+    int yr,day,month,hour,minute;
+    int partySize;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_res);
+            Calendar today = Calendar.getInstance();
+            yr = today.get(Calendar.YEAR);
+            day = today.get(Calendar.DAY_OF_MONTH);
+            month = today.get(Calendar.MONTH);
+            hour = today.get(Calendar.HOUR_OF_DAY);
+            minute = today.get(Calendar.MINUTE);
+
 
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
@@ -230,9 +242,14 @@ public class ResActivity extends ActionBarActivity {
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
-                    setDate();
 
-                    if (restaurant.takesReservations()==0){
+                    if (restaurant.takesReservations()==1){
+                        showDialog(dialog_id);
+                        showDialog(dialog_id2);
+
+                    }
+
+                    else {
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
                                 Toast.LENGTH_SHORT).show();
                         return false;
@@ -245,36 +262,49 @@ public class ResActivity extends ActionBarActivity {
                 }
                 return false;
             }
-        });
+        });}
 
-    }
-
-    public void setDate()
-    {new DatePickerDialog(ResActivity.this,d,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
-        setTime();
-    }
-
-    public void setTime()
-    {
-    TimePickerDialog tpd = new TimePickerDialog(ResActivity.this,new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    protected Dialog onCreateDialog(int id) {
+        switch(id)
+        {
+            case dialog_id:
+                return new DatePickerDialog(this,mDateSetListener,yr,month,day);
+            case dialog_id2:
+                return new TimePickerDialog(this,mTimeSetListener,hour,minute,false);
         }
-    },calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),false);
-        tpd.show();
-    }
 
-    Calendar calendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+      return null;
+    }
+    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            calendar.set(calendar.YEAR,year);
+        yr = year;
+        month = monthOfYear;
+        day = dayOfMonth;
 
         }
     };
 
-    String timeselection = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) +"/"+
-            calendar.get(Calendar.YEAR) +"-"+ calendar.get(Calendar.HOUR_OF_DAY) +":" + calendar.get(Calendar.MINUTE);
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view,
+                                      int hourOfDay, int hour_minute) {
+                    hour = hourOfDay;
+                    minute = hour_minute;
+                partySize = getIntent().getExtras().getInt("Psize");
+                Toast.makeText(getBaseContext(),"Settled Time :"+month+"/" +day +"/" +yr + " at " +hour +":"+minute +" for party of:" +partySize,Toast.LENGTH_LONG).show();
 
+
+                }
+            };
 
 }
+
+
+
+
+
+
+
+
