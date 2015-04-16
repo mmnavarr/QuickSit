@@ -56,6 +56,9 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private double lat, lng;
     private User user;
     private Restaurant restaurant;
+    private String resname, restype, yelpurl,menurl;
+    private int takesRes;
+    private int waitTime;
 
 
     //for reservations
@@ -69,24 +72,26 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     int yr,day,month,hour,minute;
     int partySize;
 
-    @SuppressWarnings("deprecation")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_res);
-            Calendar today = Calendar.getInstance();
-            yr = today.get(Calendar.YEAR);
-            day = today.get(Calendar.DAY_OF_MONTH);
-            month = today.get(Calendar.MONTH);
-            hour = today.get(Calendar.HOUR_OF_DAY);
-            minute = today.get(Calendar.MINUTE);
+            calendar = Calendar.getInstance();
+            yr = calendar.get(Calendar.YEAR);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            month = calendar.get(Calendar.MONTH);
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+            minute = calendar.get(Calendar.MINUTE);
 
             dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
             timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
             bar.hide();
+
+
 
 
             Bundle b = getIntent().getExtras();
@@ -114,14 +119,17 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         name = (TextView) findViewById(R.id.res_name);
         name.setText(restaurant.getName());
 
+
         addr = (TextView) findViewById(R.id.res_addr);
         addr.setText(getAddress());
 
         type = (TextView) findViewById(R.id.res_type);
         type.setText(restaurant.getType() + " Cuisine");
 
+
         wait = (TextView) findViewById(R.id.wait_time);
         wait.setText(Integer.toString(restaurant.getWait()) + " min.");
+
 
         initButtons();
     }
@@ -151,7 +159,8 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         map.addMarker(new MarkerOptions()
                 .position(loc)
                 .title(restaurant.getName())
-                .snippet(restaurant.getType()));
+                .snippet(restaurant.getType())
+                );
 
         // Move the camera instantly to hamburg with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 6));
@@ -197,6 +206,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
 
                     //Send them to menu URL
                     String url = restaurant.getMenuURL();
+
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
@@ -221,6 +231,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
 
                     //Send them to YELP URL getyelpurl
                     String url = restaurant.getYelpURL();
+
                     Log.d("URL STRING:", url);
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
@@ -257,31 +268,34 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            //style for touch
-            make.setBackgroundColor(getResources().getColor(R.color.white));
-            make.setTextColor(getResources().getColor(R.color.shittyRoses));
+        switch (v.getId()) {
+            case R.id.res_make: {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //style for touch
+                    make.setBackgroundColor(getResources().getColor(R.color.white));
+                    make.setTextColor(getResources().getColor(R.color.shittyRoses));
 
-            if (restaurant.takesReservations()==1){
-                DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+                    if (restaurant.takesReservations() == 1) {
+                        //DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                          //      calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
 
 
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
+                                Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //style for un-touch
+                    make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
+                    make.setTextColor(getResources().getColor(R.color.white));
+                }
+                break;
             }
 
-            else {
-                Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            //style for un-touch
-            make.setBackgroundColor(getResources().getColor(R.color.shittyRoses));
-            make.setTextColor(getResources().getColor(R.color.white));
         }
         return false;
-
     }
 }
 

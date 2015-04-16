@@ -50,10 +50,6 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
-            //Sends partysize data to ResActivity
-            Intent i = new Intent(MainActivity.this, ResActivity.class);
-            i.putExtra("Psize",partySize);
-            startActivity(i);
 
             initViews();
         }
