@@ -1,6 +1,8 @@
 package com.cyberplays.quicksit;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,10 +11,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +68,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private User user;
     private Restaurant restaurant;
     private String res_date, res_time, res_name, id, party_size;
+    private EditText input;
 
 
 
@@ -265,6 +271,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         res_time = timeFormat.format(calendar.getTime());
+        openNameDialog();
         new PostResAsyncTask().execute(id,res_name,party_size,res_date,res_time);
     }
 
@@ -301,6 +308,38 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         return false;
     }
 
+    public void openNameDialog(){
+        LayoutInflater layoutInflater = LayoutInflater.from(this.getApplicationContext());
+        View dialogView = layoutInflater.inflate(R.layout.dialog_setname, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setView(dialogView);
+        //INITIALIZE EDIT TEXT
+        input = (EditText) dialogView.findViewById(R.id.dialog_setname_setname);
+
+
+        //SETUP DIALOG WINDOW
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //GET USER INPUT FOR WAIT TIME
+                        res_name = input.getText().toString();
+
+
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,	int id) {
+                                dialog.cancel();}});
+
+        //CREATE THE ALERT DIALOG
+        AlertDialog alert = alertDialogBuilder.create();
+        // SHOW THE ALERT
+        alert.show();
+    }
+
     //ASYNC TASK TO POST WIAT TIME TO DB
     class PostResAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -323,11 +362,11 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
             //uniquely separate by the other end.
             //To achieve that we use BasicNameValuePair
             //Things we need to pass with the POST request
-            BasicNameValuePair resIdPair = new BasicNameValuePair("res_id", res_id);
+            BasicNameValuePair resIdPair = new BasicNameValuePair("rest_id", res_id);
             BasicNameValuePair namePair = new BasicNameValuePair("name", name);
             BasicNameValuePair pSizePair = new BasicNameValuePair("p_size", p_size);
-            BasicNameValuePair resDatePair = new BasicNameValuePair("res_date", res_date);
-            BasicNameValuePair resTimePair = new BasicNameValuePair("res_time", res_time);
+            BasicNameValuePair resDatePair = new BasicNameValuePair("rest_date", res_date);
+            BasicNameValuePair resTimePair = new BasicNameValuePair("rest_time", res_time);
 
 
             // We add the content that we want to pass with the POST request to as name-value pairs
@@ -335,8 +374,8 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
             ArrayList<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
             nameValuePairList.add(pSizePair);
             nameValuePairList.add(resDatePair);
-            nameValuePairList.add(resIdPair);
             nameValuePairList.add(resTimePair);
+            nameValuePairList.add(resIdPair);
             nameValuePairList.add(namePair);
 
 
