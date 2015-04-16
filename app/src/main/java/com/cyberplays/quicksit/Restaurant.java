@@ -1,27 +1,12 @@
 package com.cyberplays.quicksit;
 
 import android.location.Location;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-import com.google.android.gms.maps.model.LatLng;
-
-/**
- *
- */
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
-
-/**
- *
- */
 public class Restaurant implements Parcelable{
 
     protected String name;    // Name of the restaurant
@@ -56,20 +41,6 @@ public class Restaurant implements Parcelable{
         resLocation.setLatitude(lat);
         resLocation.setLongitude(lon);
 
-    }
-    public Restaurant(int resId, String name, String type,double lat, double lon, int wait, String yelpURL, String menuURL, int takesRes) {
-        this.resId = resId;
-        this.name = name;
-        this.type = type;
-        this.latitude = lat;
-        this.longitude = lon;
-        this.waitTime = wait;
-        this.yelpURL = yelpURL;
-        this.menuURL = menuURL;
-        this.takesRes = takesRes;
-        this.resLocation = new Location("User");
-        resLocation.setLatitude(lat);
-        resLocation.setLongitude(lon);
     }
 
     public Restaurant(String name, String type, String pass, Location loc){
@@ -190,7 +161,7 @@ public class Restaurant implements Parcelable{
         out.writeDouble(longitude);
         out.writeValue(resLocation);
         out.writeInt(resId);
-
+        out.writeInt(takesRes);
     }
 
     public Restaurant(Parcel in){
@@ -206,6 +177,7 @@ public class Restaurant implements Parcelable{
         this.longitude = in.readDouble();
         this.resLocation = new Location ((Location) in.readValue(Location.class.getClassLoader()));
         this.resId = in.readInt();
+        this.takesRes = in.readInt();
     }
 
 }

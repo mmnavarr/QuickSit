@@ -1,39 +1,24 @@
 package com.cyberplays.quicksit;
 
 
-
-import android.app.Dialog;
-import android.app.DialogFragment;
-
-import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
-import java.util.Calendar;
-import java.util.List;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import android.app.Dialog;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,8 +27,26 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ResActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,
@@ -277,8 +280,8 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
 
                     if (restaurant.takesReservations() == 1) {
-                        //DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                          //      calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+                        DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                                calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
 
 
                     } else {
@@ -298,6 +301,92 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         }
         return false;
     }
+
+    //ASYNC TASK TO POST WIAT TIME TO DB
+    class PostResAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String res_id = params[0];
+            String name = params[1];
+            String p_size = params[2];
+            String res_date = params[3];
+            String res_time = params[4];
+
+            HttpClient httpClient = new DefaultHttpClient();
+
+            // In a POST request, we don't pass the values in the URL.
+            //Therefore we use only the web page URL as the parameter of the HttpPost argument
+            final String url = "http://cyberplays.com/quicksit/webservice/make_reservations.php";
+            HttpPost httpPost = new HttpPost(url);
+
+            // Because we are not passing values over the URL, we should have a mechanism to pass the values that can be
+            //uniquely separate by the other end.
+            //To achieve that we use BasicNameValuePair
+            //Things we need to pass with the POST request
+            BasicNameValuePair resIdPair = new BasicNameValuePair("res_id", res_id);
+            BasicNameValuePair namePair = new BasicNameValuePair("name", name);
+
+            // We add the content that we want to pass with the POST request to as name-value pairs
+            //Now we put those sending details to an ArrayList with type safe of NameValuePair
+            ArrayList<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            nameValuePairList.add(resIdPair);
+            nameValuePairList.add(namePair);
+
+            try {
+                // UrlEncodedFormEntity is an entity composed of a list of url-encoded pairs.
+                //This is typically useful while sending an HTTP POST request.
+                UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+
+                // setEntity() hands the entity (here it is urlEncodedFormEntity) to the request.
+                httpPost.setEntity(urlEncodedFormEntity);
+
+                try {
+                    // HttpResponse is an interface just like HttpPost.
+                    //Therefore we can't initialize them
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                    // According to the JAVA API, InputStream constructor do nothing.
+                    //So we can't initialize InputStream although it is not an interface
+                    InputStream inputStream = httpResponse.getEntity().getContent();
+
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    String bufferedStrChunk = null;
+
+                    while((bufferedStrChunk = bufferedReader.readLine()) != null){
+                        stringBuilder.append(bufferedStrChunk);
+                    }
+
+                    return stringBuilder.toString();
+
+                } catch (ClientProtocolException cpe) {
+                    System.out.println("First Exception caz of HttpResponese :" + cpe);
+                    cpe.printStackTrace();
+                } catch (IOException ioe) {
+                    System.out.println("Second Exception caz of HttpResponse :" + ioe);
+                    ioe.printStackTrace();
+                }
+
+            } catch (UnsupportedEncodingException uee) {
+                System.out.println("An Exception given because of UrlEncodedFormEntity argument :" + uee);
+                uee.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //GET HYPED
+        }
+    }
+
 }
 
 
