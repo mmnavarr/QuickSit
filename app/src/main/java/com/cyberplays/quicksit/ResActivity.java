@@ -67,7 +67,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private double lat, lng;
     private User user;
     private Restaurant restaurant;
-    private String res_date, res_time, res_name, id, party_size;
+    private String res_date, res_time, res_name, res_id, party_size;
     private EditText input;
 
 
@@ -105,7 +105,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
             }
             lat = restaurant.getLat();
             lng = restaurant.getLong();
-            id = Integer.toString(restaurant.getResId());
+            res_id = Integer.toString(restaurant.getResId());
             party_size = Integer.toString(user.getSize());
             res_name = "Bill";
 
@@ -272,7 +272,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         calendar.set(Calendar.MINUTE, minute);
         res_time = timeFormat.format(calendar.getTime());
         openNameDialog();
-        new PostResAsyncTask().execute(id,res_name,party_size,res_date,res_time);
+
     }
 
     @Override
@@ -325,7 +325,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                     public void onClick(DialogInterface dialog, int id) {
                         //GET USER INPUT FOR WAIT TIME
                         res_name = input.getText().toString();
-
+                        new PostResAsyncTask().execute(res_id,res_name,party_size,res_date,res_time);
 
                     }
                 })

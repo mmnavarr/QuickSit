@@ -20,7 +20,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:ems="10"
         android:id="@+id/dialog_setname_setname"
         android:layout_below="@+id/dialog_setname_header"
@@ -31,7 +30,8 @@
         android:gravity="center"
         android:numeric="integer"
         android:typeface="normal"
-        android:textColor="#ff000000" >
+        android:textColor="#ff000000"
+        android:inputType="text">
         <requestFocus />
     </EditText>
 </RelativeLayout>
