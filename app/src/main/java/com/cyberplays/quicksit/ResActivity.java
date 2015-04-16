@@ -78,15 +78,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_res);
-            calendar = Calendar.getInstance();
-            yr = calendar.get(Calendar.YEAR);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
-            month = calendar.get(Calendar.MONTH);
-            hour = calendar.get(Calendar.HOUR_OF_DAY);
-            minute = calendar.get(Calendar.MINUTE);
 
-            dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
-            timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
             bar.hide();
@@ -271,6 +263,15 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         switch (v.getId()) {
             case R.id.res_make: {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    calendar = Calendar.getInstance();
+                    yr = calendar.get(Calendar.YEAR);
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+                    month = calendar.get(Calendar.MONTH);
+                    hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    minute = calendar.get(Calendar.MINUTE);
+
+                    dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+                    timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
