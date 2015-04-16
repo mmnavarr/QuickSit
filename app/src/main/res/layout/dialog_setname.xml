@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/dialog_setname_header"
+        android:id="@+id/dialog_setname_header"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:background="#CE123E"
+        android:autoText="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/dialog_setname_setname"
+        android:layout_below="@+id/dialog_setname_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:numeric="integer"
+        android:typeface="normal"
+        android:textColor="#ff000000" >
+        <requestFocus />
+    </EditText>
+</RelativeLayout>

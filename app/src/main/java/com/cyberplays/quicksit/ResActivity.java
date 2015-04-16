@@ -29,12 +29,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,13 +59,11 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private TextView name, addr, type, wait;
     private Button menu, yelp, make;
     private GoogleMap map;
-    private Intent i;
     private double lat, lng;
     private User user;
     private Restaurant restaurant;
-    private String resname, restype, yelpurl,menurl;
-    private int takesRes;
-    private int waitTime;
+    private String res_date, res_time, res_name, id, party_size;
+
 
 
     //for reservations
@@ -70,10 +72,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
 
-    static final int dialog_id = 1; //DatePicker
-    static final int dialog_id2= 2; //TimePicker
-    int yr,day,month,hour,minute;
-    int partySize;
+
 
 
     @Override
@@ -81,7 +80,11 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_res);
+            calendar = Calendar.getInstance();
 
+
+            dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+            timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
             //SET ACTION BAR COLOR
             ActionBar bar = getSupportActionBar();
             bar.hide();
@@ -96,7 +99,9 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
             }
             lat = restaurant.getLat();
             lng = restaurant.getLong();
-
+            id = Integer.toString(restaurant.getResId());
+            party_size = Integer.toString(user.getSize());
+            res_name = "Bill";
 
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
@@ -250,6 +255,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     @Override
     public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
         calendar.set(year, monthOfYear, dayOfMonth);
+        res_date = dateFormat.format(calendar.getTime());
         TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
     }
@@ -258,7 +264,8 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-
+        res_time = timeFormat.format(calendar.getTime());
+        new PostResAsyncTask().execute(id,res_name,party_size,res_date,res_time);
     }
 
     @Override
@@ -266,15 +273,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         switch (v.getId()) {
             case R.id.res_make: {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    calendar = Calendar.getInstance();
-                    yr = calendar.get(Calendar.YEAR);
-                    day = calendar.get(Calendar.DAY_OF_MONTH);
-                    month = calendar.get(Calendar.MONTH);
-                    hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    minute = calendar.get(Calendar.MINUTE);
 
-                    dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
-                    timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
@@ -317,7 +316,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
 
             // In a POST request, we don't pass the values in the URL.
             //Therefore we use only the web page URL as the parameter of the HttpPost argument
-            final String url = "http://cyberplays.com/quicksit/webservice/make_reservations.php";
+            final String url = "http://cyberplays.com/quicksit/webservice/make_reservation.php";
             HttpPost httpPost = new HttpPost(url);
 
             // Because we are not passing values over the URL, we should have a mechanism to pass the values that can be
@@ -326,55 +325,49 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
             //Things we need to pass with the POST request
             BasicNameValuePair resIdPair = new BasicNameValuePair("res_id", res_id);
             BasicNameValuePair namePair = new BasicNameValuePair("name", name);
+            BasicNameValuePair pSizePair = new BasicNameValuePair("p_size", p_size);
+            BasicNameValuePair resDatePair = new BasicNameValuePair("res_date", res_date);
+            BasicNameValuePair resTimePair = new BasicNameValuePair("res_time", res_time);
+
 
             // We add the content that we want to pass with the POST request to as name-value pairs
             //Now we put those sending details to an ArrayList with type safe of NameValuePair
             ArrayList<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            nameValuePairList.add(pSizePair);
+            nameValuePairList.add(resDatePair);
             nameValuePairList.add(resIdPair);
+            nameValuePairList.add(resTimePair);
             nameValuePairList.add(namePair);
 
+
+            //Encoding POST data
             try {
-                // UrlEncodedFormEntity is an entity composed of a list of url-encoded pairs.
-                //This is typically useful while sending an HTTP POST request.
-                UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            } catch (UnsupportedEncodingException e) {
+                // log exception
+                e.printStackTrace();
+            }
 
-                // setEntity() hands the entity (here it is urlEncodedFormEntity) to the request.
-                httpPost.setEntity(urlEncodedFormEntity);
-
+            //making POST request.
+            HttpResponse httpResponse;
+            try {
+                httpResponse = httpClient.execute(httpPost);
+                // write response to log
+                Log.d("Http Post Response:", httpResponse.toString());
                 try {
-                    // HttpResponse is an interface just like HttpPost.
-                    //Therefore we can't initialize them
-                    HttpResponse httpResponse = httpClient.execute(httpPost);
-
-                    // According to the JAVA API, InputStream constructor do nothing.
-                    //So we can't initialize InputStream although it is not an interface
-                    InputStream inputStream = httpResponse.getEntity().getContent();
-
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    String bufferedStrChunk = null;
-
-                    while((bufferedStrChunk = bufferedReader.readLine()) != null){
-                        stringBuilder.append(bufferedStrChunk);
-                    }
-
-                    return stringBuilder.toString();
-
-                } catch (ClientProtocolException cpe) {
-                    System.out.println("First Exception caz of HttpResponese :" + cpe);
-                    cpe.printStackTrace();
-                } catch (IOException ioe) {
-                    System.out.println("Second Exception caz of HttpResponse :" + ioe);
-                    ioe.printStackTrace();
+                    String responseText = EntityUtils.toString(httpResponse.getEntity());
+                    Log.d("RESPONSE", responseText);
+                    return responseText;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Log.i("Parse Exception", e + "");
                 }
-
-            } catch (UnsupportedEncodingException uee) {
-                System.out.println("An Exception given because of UrlEncodedFormEntity argument :" + uee);
-                uee.printStackTrace();
+            } catch (ClientProtocolException e) {
+                // Log exception
+                e.printStackTrace();
+            } catch (IOException e) {
+                // Log exception
+                e.printStackTrace();
             }
 
             return null;
@@ -383,7 +376,21 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            //GET HYPED
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                int success = jsonObject.getInt("success");
+
+                if (success == 1) {
+
+                    Toast.makeText(getApplicationContext(), "Your reservation has been accepted.", Toast.LENGTH_SHORT).show();
+
+                } else if (success == 0) {
+                    Toast.makeText(getApplicationContext(), "Your reservation has been denied", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

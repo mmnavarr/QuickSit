@@ -32,6 +32,8 @@
         <item>Other</item>
     </string-array>
 
+    <string name="dialog_setname_header">Please provide a name.</string>
+
     <string name="psize">0</string>
     <string name="dsize">0</string>
 
