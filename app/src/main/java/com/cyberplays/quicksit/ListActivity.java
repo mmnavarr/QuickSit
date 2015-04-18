@@ -273,7 +273,8 @@ public class ListActivity extends Activity {
                         int rest_id = c.getInt(TAG_REST_ID);
 
 
-                        Restaurant r = new Restaurant(rest_id,rest_name,rest_type,rest_yelp,rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
+                        Restaurant r = new Restaurant(rest_id,rest_name,rest_type,rest_yelp,
+                                rest_menu,rest_phone,rest_reservation,rest_lat,rest_long,rest_wait);
                         rests.add(r);
                     }
                 } else {

@@ -325,6 +325,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                     public void onClick(DialogInterface dialog, int id) {
                         //GET USER INPUT FOR WAIT TIME
                         res_name = input.getText().toString();
+                        Toast.makeText(getApplicationContext(), "Request sent.", Toast.LENGTH_SHORT).show();
                         new PostResAsyncTask().execute(res_id,res_name,party_size,res_date,res_time);
 
                     }
