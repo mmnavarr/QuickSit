@@ -91,6 +91,7 @@ public class ListActivity extends Activity {
             //CALL HTTPREQUEST IN BACKGROUND ASYNCTASK TO DB
             new LoadAllRestaurants().execute();
 
+            // Get the user object from the previous activity
             if (b != null){
                 user = b.getParcelable("user");
             }
@@ -142,39 +143,8 @@ public class ListActivity extends Activity {
         map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
     }
 
-    /*private void initSpinner(){
-        Spinner options = (Spinner) findViewById(R.id.filter);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.genres_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        options.setAdapter(spinnerAdapter);
-        options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                choice = (String) parent.getItemAtPosition(position);
-
-                if (choice.equalsIgnoreCase("all")){
-                    filteredRests = allRests;
-                }
-                for (int i = 0; i < allRests.size(); i++){
-                    if (allRests.get(i).getType().equalsIgnoreCase(choice)){
-                        filteredRests.add(allRests.get(i));
-                    }
-                }
-                bubbleSort();
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                   filteredRests = allRests;
-            }
-        });
-    }*/
-
     private void initList() {
+        //sort the contents of the list prior to populating the list view
         bubbleSort();
         mListView = (ListView) findViewById(R.id.list);
 
@@ -192,10 +162,8 @@ public class ListActivity extends Activity {
                 b.putParcelable("user", user);
                 Restaurant rest = array.get(position);
                 b.putParcelable("restaurant", rest);
-
+                //Pass both the user and restaurant objects to the next activity
                 i.putExtras(b);
-                //i.putExtra("restaurant", array.get(position));
-                //i.putExtra("user", user);
                 startActivity(i);
                 Log.d("view DEBUG", "RESTAURANT CLICK!");
             }
@@ -299,7 +267,7 @@ public class ListActivity extends Activity {
             if (isPlayServicesAvailable()) {
                 initMap();
             }
-            //initSpinner();
+            // set up the list view
             initList();
         }
 
@@ -399,6 +367,7 @@ public class ListActivity extends Activity {
             n = n2;
         }
     }
+    //Helper method for bubble sort
     public void swap (ArrayList<Restaurant> array, int i){
         Restaurant one = array.get(i-1);
         Restaurant two = array.get(i);

@@ -5,11 +5,9 @@ import android.os.Parcel;
 import android.os.IBinder;
 import android.location.*;
 
-/**
- * Created by Sam
- */
+// A user object
 public class User implements Parcelable{
-//
+
     protected int partySize;
     protected int range;
     protected Location location;
@@ -52,20 +50,13 @@ public class User implements Parcelable{
         this.location = l;
     }
 
-    public void makeReservation(int time) {
-        //make the reservation
-    }
-
-    public void cancelReservation(int time) {
-        //cancel a reservation
-    }
 
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(partySize);
         out.writeInt(range);
         out.writeValue(location);
     }
-
+    //required for implementing parcelable
     public int describeContents() {
         return 0;
     }

@@ -42,7 +42,8 @@ public class MainActivity extends ActionBarActivity {
     private Location lastKnownLocation, currentBestLocation;
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     protected int range, partySize;
-//
+
+    //Called when the view is created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
-
+            //initialize the views
             initViews();
         }
 
@@ -65,6 +66,7 @@ public class MainActivity extends ActionBarActivity {
     //INITIALIZE THE VIEWS
     private void initViews(){
         title = (TextView) findViewById(R.id.title);
+        //Split up different aspects of the view for ease of reading
         locationSetup();
         buttonSetup();
         seekbarSetup();
@@ -80,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
             // Define a listener that responds to location updates
             locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
+                    //If a better location is detected, set it as the best location
                     if (isBetterLocation(location, currentBestLocation)) {
                         currentBestLocation = location;
                     }
@@ -98,6 +101,7 @@ public class MainActivity extends ActionBarActivity {
             // Register the listener with the Location Manager to receive location updates
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             String locationProvider = LocationManager.NETWORK_PROVIDER;
+            //By default, set the location equal to the last-known one.
             lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
             currentBestLocation = lastKnownLocation;
         }
@@ -107,20 +111,21 @@ public class MainActivity extends ActionBarActivity {
     private void buttonSetup() {
         addr = (EditText) findViewById(R.id.address);
 
+        //Set up the button to use location services
         currLocation = (ImageButton) findViewById(R.id.currLocation);
         currLocation.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
-                if (isLocationEnabled(c)) {
+                if (isLocationEnabled(c)) { //Only allow if location services are enabled.
                     if (currentBestLocation==null){
                         Toast.makeText(getApplicationContext(), "No location.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     double latitude = currentBestLocation.getLatitude();
                     double longitude = currentBestLocation.getLongitude();
-                    String address = getAddress(latitude, longitude);
-                    addr.setHint(address);
-                    lServices = true;
+                    String address = getAddress(latitude, longitude); // Get a string representation of the address
+                    addr.setHint(address);// Display the address in the text field next to the button
+                    lServices = true;// Indicate for future use that the user location was obtained through location services
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Please turn on location services.", Toast.LENGTH_SHORT).show();
@@ -128,6 +133,9 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        /**Set up the find button which will navigate to the restaurant list page when pressed with valid
+         * inputs in all of the required fields. If the user hasn't pressed the location services button,
+         * then their location is determined through their input in the address field.*/
         find = (Button) findViewById(R.id.find);
         find.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -145,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
                     locationManager.removeUpdates(locationListener);
                     List<Address> addresses;
                     String address;
+                    // Determine location if the user hasn't pressed the location services button.
                     if (!lServices) {
                         Geocoder geocoder = new Geocoder(getApplicationContext());
                         address = addr.getText().toString();
@@ -165,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
-                    } else if (currentBestLocation == null) {
+                    } else if (currentBestLocation == null) {// Make sure that the users location isn't null
                         currentBestLocation = lastKnownLocation;
                     }
 
@@ -192,13 +201,14 @@ public class MainActivity extends ActionBarActivity {
     //Sets up the seek bars
     private void seekbarSetup() {
 
+        //SeekBar used to specify the range the user is willing to travel
         rangeBar = (SeekBar) findViewById(R.id.range);
         rangeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d("view DEBUG", Integer.toString(progress));
-                rangeTxt.setText(Integer.toString(progress));
-                range = progress;
+                rangeTxt.setText(Integer.toString(progress));// Display the current seekbar progress next to it
+                range = progress;// Set the search range equal to the user input
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -207,13 +217,13 @@ public class MainActivity extends ActionBarActivity {
         });
 
         rangeTxt = (TextView) findViewById(R.id.rangeTxt);
-
+        //SeekBar used to specify the number of members in the user's party
         pSizeBar = (SeekBar) findViewById(R.id.pSize);
         pSizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                pSizeTxt.setText(Integer.toString(progress));
-                partySize = progress;
+                pSizeTxt.setText(Integer.toString(progress));// Display the current seekbar progress next to it
+                partySize = progress;// Set the party size equal to the user input
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -226,6 +236,10 @@ public class MainActivity extends ActionBarActivity {
         pSizeTxt = (TextView) findViewById(R.id.pSizeTxt);
     }
 
+    //A method to determine if a location found through a location manager is better
+    //than the current estimate of the user's location. This method was taken from
+    //Android's guide on location strategies, and can be found here:
+    // https://developer.android.com/guide/topics/location/strategies.html
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
         if (currentBestLocation == null) {
             // A new location is always better than no location
@@ -269,7 +283,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    /** Checks whether two providers are the same */
+    /** Checks whether two providers are the same. Also taken from
+     *  https://developer.android.com/guide/topics/location/strategies.html */
     private boolean isSameProvider(String provider1, String provider2) {
         if (provider1 == null) {
             return provider2 == null;
@@ -277,6 +292,8 @@ public class MainActivity extends ActionBarActivity {
         return provider1.equals(provider2);
     }
 
+    // A method that returns a String representation of an address given the Latitude and Longitude
+    // of the location
     public String getAddress(double lat, double lng) {
         try {
             Geocoder geocoder;
@@ -298,7 +315,7 @@ public class MainActivity extends ActionBarActivity {
             return null;
         }
     }
-
+    // A method to determine if location services are enabled
     public static boolean isLocationEnabled(Context context) {
         int locationMode = 0;
         String locationProviders;
@@ -317,9 +334,8 @@ public class MainActivity extends ActionBarActivity {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
-//gh
-
     }
+    // A method to determine if the network is available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

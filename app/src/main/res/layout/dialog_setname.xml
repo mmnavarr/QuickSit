@@ -30,7 +30,7 @@
         android:gravity="center"
         android:numeric="integer"
         android:typeface="normal"
-        android:textColor="#ff000000"
+        android:textColor="#ffffff"
         android:inputType="text">
         <requestFocus />
     </EditText>

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
+// A restaurant object
 public class Restaurant implements Parcelable{
 
     protected String name;    // Name of the restaurant
@@ -132,6 +132,7 @@ public class Restaurant implements Parcelable{
         return bd.doubleValue();
     }
 
+    //required for implementing parcelable
     public int describeContents() {
         return 0;
     }

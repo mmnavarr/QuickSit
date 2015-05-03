@@ -13,9 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by malcolmnavarro on 2/3/15.
- */
+//Adapter for populating the listview of restaurants
 public class MyAdapter extends ArrayAdapter<Restaurant> {
     private final Context context;
     private ArrayList<Restaurant> rests = new ArrayList<Restaurant>();

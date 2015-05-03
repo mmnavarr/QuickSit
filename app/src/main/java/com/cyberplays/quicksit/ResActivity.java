@@ -60,17 +60,19 @@ import java.util.Locale;
 
 public class ResActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, View.OnTouchListener{
-
+    //views
     private TextView name, addr, type, wait;
     private Button menu, yelp, make;
+    private EditText input;
+
+    //for google maps/locations
     private GoogleMap map;
     private double lat, lng;
+
+    //objects related to user/host interaction
     private User user;
     private Restaurant restaurant;
     private String res_date, res_time, res_name, res_id, party_size;
-    private EditText input;
-
-
 
     //for reservations
     private static final String TIME_PATTERN = "HH:mm";
@@ -103,11 +105,13 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                 user = b.getParcelable("user");
                 restaurant = b.getParcelable("restaurant");
             }
+            // Get latitude and longitude of user location for use in the google maps API
             lat = restaurant.getLat();
             lng = restaurant.getLong();
+            // Get string representations of these fields for database use
             res_id = Integer.toString(restaurant.getResId());
             party_size = Integer.toString(user.getSize());
-            res_name = "Bill";
+            res_name = null;
 
             //if Internet -> setup map
             if (isPlayServicesAvailable()) {
@@ -136,11 +140,11 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         wait = (TextView) findViewById(R.id.wait_time);
         wait.setText(Integer.toString(restaurant.getWait()) + " min.");
 
-
+        //Initialize buttons separately to make code cleaner
         initButtons();
     }
 
-
+    // Checks if google play services are available
     protected boolean isPlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
@@ -159,6 +163,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
     private void initMap() {
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment2)).getMap();
 
+        //get the LatLng representation of the restaurant's location
         LatLng loc = new LatLng(lat,lng);
 
         //Add that specific restaurant to the map
@@ -168,7 +173,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                 .snippet(restaurant.getType())
                 );
 
-        // Move the camera instantly to hamburg with a zoom of 15.
+        // Move the camera instantly to restaurant location with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 6));
 
         // Zoom in, animating the camera.
@@ -198,7 +203,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         }
     }
 
-
+    //Method to initialize all buttons in the activity
     public void initButtons() {
         menu = (Button) findViewById(R.id.menu);
         menu.setOnTouchListener(new View.OnTouchListener() {
@@ -218,7 +223,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                     startActivity(i);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    //style for un-touche
+                    //style for un-touch
                     menu.setBackgroundColor(getResources().getColor(R.color.white));
                     menu.setTextColor(getResources().getColor(R.color.shittyRoses));
                  }
@@ -244,7 +249,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                     startActivity(i);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    //style for un-touche
+                    //style for un-touch
                     yelp.setBackgroundColor(getResources().getColor(R.color.white));
                     yelp.setTextColor(getResources().getColor(R.color.shittyRoses));
                 }
@@ -257,38 +262,39 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         make.setOnTouchListener(this);
     }
 
-
+    //Method called when the user selects a date in the date picker dialog
     @Override
     public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-        calendar.set(year, monthOfYear, dayOfMonth);
+        calendar.set(year, monthOfYear, dayOfMonth); // Store the selected date
         res_date = dateFormat.format(calendar.getTime());
-        TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY),
+        TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY),// Open the time picker dialog
                 calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
     }
-
+    // Method called when the user selects a time in the time picker dialog
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay); //Store relevant info.
         calendar.set(Calendar.MINUTE, minute);
         res_time = timeFormat.format(calendar.getTime());
-        openNameDialog();
+        openNameDialog(); //Open the name setter dialog
 
     }
-
+    // Method which handles button touches. Required for implementing View.OnTouchListener.
+    // Button functionality set in initButtons() could also be set here.
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
-            case R.id.res_make: {
+            case R.id.res_make: {// If the user selects the "make reservation" button
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     //style for touch
                     make.setBackgroundColor(getResources().getColor(R.color.white));
                     make.setTextColor(getResources().getColor(R.color.shittyRoses));
 
-                    if (restaurant.takesReservations() == 1) {
+                    if (restaurant.takesReservations() == 1) {// Make sure the restaurant takes reservations
                         DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                                 calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
-
+                        // open the dialog to pick a date, which will lead into prompting for all other info.
 
                     } else {
                         Toast.makeText(getApplicationContext(), "This restaurant does not take reservations.",
@@ -308,6 +314,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         return false;
     }
 
+    //Method which opens a dialog so the user can give a name for their reservation
     public void openNameDialog(){
         LayoutInflater layoutInflater = LayoutInflater.from(this.getApplicationContext());
         View dialogView = layoutInflater.inflate(R.layout.dialog_setname, null);
@@ -327,6 +334,8 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
                         res_name = input.getText().toString();
                         Toast.makeText(getApplicationContext(), "Request sent.", Toast.LENGTH_SHORT).show();
                         new PostResAsyncTask().execute(res_id,res_name,party_size,res_date,res_time);
+                        //Once the user gives a name and selects okay, the reservation request is sent to the restaurant
+
 
                     }
                 })
@@ -423,10 +432,10 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
 
                 if (success == 1) {
 
-                    Toast.makeText(getApplicationContext(), "Your reservation has been accepted.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Your request has been received.", Toast.LENGTH_SHORT).show();
 
                 } else if (success == 0) {
-                    Toast.makeText(getApplicationContext(), "Your reservation has been denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Your request has been denied", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
