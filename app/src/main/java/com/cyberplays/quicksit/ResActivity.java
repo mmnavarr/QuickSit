@@ -350,7 +350,7 @@ public class ResActivity extends ActionBarActivity implements DatePickerDialog.O
         alert.show();
     }
 
-    //ASYNC TASK TO POST WIAT TIME TO DB
+    //ASYNC TASK TO POST NAME TO DB
     class PostResAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
