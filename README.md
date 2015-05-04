@@ -2,7 +2,7 @@
 ##Projects :: QuickSit & QuickSit-Host
 
 #####QuickSit Libraries:
-'com.google.android.gms:play-services:6.5.87'
+'com.google.android.gms:play-services:6.5.87'\n
 'com.github.citux:datetimepicker:0.1.2'
 *Google Play Services for Google Maps*
 *DateTimePicker for custom time picker UI library*
@@ -13,11 +13,7 @@
 *PagersSlidingTabStrip for tabs interface*
 *Circle button for custom UI button interface*
 
-QuickSit is a mobile app connecting people that want to see restaurants nearby wi\
-th the restaurant host system. This allows the general public to get information \
-about the restaurant as well as functionality that enables users to make reservat\
-ions. The host-side of the application also provides an interface to manage reser\
-vations, tables and wait time.
+QuickSit is a mobile app connecting people that want to see restaurants nearby with the restaurant host system. This allows the general public to get information about the restaurant as well as functionality that enables users to make reservations. The host-side of the application also provides an interface to manage reservations, tables and wait time.
 
 ######To install QuickSit visit:
 [GitHub repository link](https://github.com/mmnavarr/QuickSit)
