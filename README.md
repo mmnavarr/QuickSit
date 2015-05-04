@@ -20,23 +20,13 @@ com.github.markushi:circlebutton:1.1
 *Circle button for custom UI button interface*
 
 
-
-####QuickSit is a mobile app connecting people that want to see restaurants nearby with the restaurant host system. This allows the general public to get information about the restaurant as well as functionality that enables users to make reservations. The host-side of the application also provides an interface to manage reservations, tables and wait time.
-
-
+</p>QuickSit is a mobile app connecting people that want to see restaurants nearby with the restaurant host system. This allows the general public to get information about the restaurant as well as functionality that enables users to make reservations. The host-side of the application also provides an interface to manage reservations, tables and wait time.
 
 ######To install QuickSit visit:
 [GitHub repository link](https://github.com/mmnavarr/QuickSit)
 
 ######To install QuickSit-Host visit:
 [GitHub repository link](https://github.com/hagan116/QuickSit-Host)
-
-
-Known Bugs:
-1. List recycling issue when adding and deleting items
-2. Memory problems when running on emulators
-
-
 
 Brief history: This is a CIS 454 (Software Implementation) final project.
 
