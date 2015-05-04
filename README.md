@@ -2,14 +2,14 @@
 ##Projects :: QuickSit & QuickSit-Host
 
 #####QuickSit Libraries:
-'com.google.android.gms:play-services:6.5.87'\n
-'com.github.citux:datetimepicker:0.1.2'
+com.google.android.gms:play-services:6.5.87
+com.github.citux:datetimepicker:0.1.2
 *Google Play Services for Google Maps*
 *DateTimePicker for custom time picker UI library*
 
 #####QuickSit-Host Libraries:
-'com.astuetz:pagerslidingtabstrip:1.0.1'
-'com.github.markushi:circlebutton:1.1'
+com.astuetz:pagerslidingtabstrip:1.0.1
+com.github.markushi:circlebutton:1.1
 *PagersSlidingTabStrip for tabs interface*
 *Circle button for custom UI button interface*
 
