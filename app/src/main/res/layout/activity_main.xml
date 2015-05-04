@@ -4,23 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="@drawable/background"
+    android:background="@drawable/bg_restaurant"
     android:id="@+id/front">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/name"
-        android:id="@+id/title"
-        android:layout_alignParentTop="true"
-        android:textSize="60sp"
-        android:layout_alignRight="@+id/find"
-        android:layout_alignEnd="@+id/find"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center"
-        android:visibility="invisible" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -36,12 +21,13 @@
         android:layout_toLeftOf="@+id/rangeTxt"
         android:layout_toStartOf="@+id/rangeTxt"
         android:layout_marginTop="4dp"
-        android:progressTint="#ff000000" />
+        android:progressTint="#FFFFFF" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
+        android:textColorHint="@color/white"
         android:ems="10"
         android:id="@+id/address"
         android:hint="@string/addr"
@@ -51,8 +37,8 @@
         android:layout_toLeftOf="@+id/currLocation"
         android:layout_toStartOf="@+id/currLocation"
         android:layout_marginRight="12dp"
-        android:backgroundTint="#ff000000"
-        android:textColor="#ff000000" />
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -99,7 +85,8 @@
         android:layout_toLeftOf="@+id/currLocation"
         android:layout_toStartOf="@+id/currLocation"
         android:layout_marginTop="12dp"
-        android:progressTint="#ff000000" />
+        android:progressTint="#FFFFFF"
+        android:secondaryProgressTint="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -114,7 +101,7 @@
         android:layout_toRightOf="@+id/address"
         android:text="@string/psize"
         android:gravity="center"
-        android:textColor="#ff000000" />
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -130,7 +117,7 @@
         android:layout_alignStart="@+id/pSizeTxt"
         android:text="@string/dsize"
         android:gravity="center"
-        android:textColor="#ff000000" />
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -142,7 +129,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
-        android:textColor="#ff000000" />
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -154,14 +141,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
-        android:textColor="#ff000000" />
+        android:textColor="#FFFFFF" />
 
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/icon_original" />
+        android:layout_marginTop="65dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="65dp" />
 
 </RelativeLayout>
