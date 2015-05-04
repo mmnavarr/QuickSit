@@ -1,6 +1,7 @@
 # QuickSit
 ##Projects :: QuickSit & QuickSit-Host
 
+<br>
 #####QuickSit Libraries:
 com.google.android.gms:play-services:6.5.87
 
